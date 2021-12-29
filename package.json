@@ -4,7 +4,7 @@
 	"description": "linter for PGS Software technology radar",
 	"main": "bin/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "tsc --watch src/index.ts"
 	},
 	"keywords": [],
 	"author": "Wojciech Grabowski wgrabowski@pgs-soft.com",
