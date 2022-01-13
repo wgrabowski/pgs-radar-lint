@@ -4,7 +4,8 @@
 	"description": "linter for PGS Software technology radar",
 	"main": "bin/index.js",
 	"scripts": {
-		"start": "tsc --watch src/index.ts"
+		"start": "tsc --watch src/index.ts",
+		"build": "tsc  src/index.ts"
 	},
 	"keywords": [],
 	"author": "Wojciech Grabowski wgrabowski@pgs-soft.com",
@@ -16,6 +17,7 @@
 		"@typescript-eslint/eslint-plugin": "5.8.1",
 		"@typescript-eslint/parser": "5.8.1",
 		"eslint": "8.5.0",
+		"eslint-plugin-functional": "4.1.1",
 		"husky": "7.0.4",
 		"lint-staged": "12.1.4",
 		"typescript": "4.5.4"
