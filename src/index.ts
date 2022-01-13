@@ -1,10 +1,33 @@
-import { getLatestRadarEntries, getRadars } from "./radar-api";
+import { argv, stdout } from "process";
+import { getConfig } from "./config";
+import { getConfigFromUser, writeConfigFile } from "./init";
 
-async function main() {
-	const radars = await getRadars();
-	const entries = await getLatestRadarEntries(radars[0].spreadsheetId);
-
-	console.table(entries);
+function promptNoConfig() {
+	return stdout.write("No config file found. Use --init flag to create config file\n");
 }
 
-main();
+async function main() {
+	const config = await getConfig().catch(() => promptNoConfig());
+	console.log(config);
+}
+
+async function init() {
+	const config = await getConfig().then(() => {
+		stdout.write("Config file already exists\n");
+		return true;
+	}
+	).catch(() => getConfigFromUser());
+
+
+	if (typeof config !== "boolean") {
+		writeConfigFile(config).then(() => stdout.write("Config file has been created\n")
+		);
+	}
+
+}
+
+if (argv[2] === "--init") {
+	init();
+} else {
+	main();
+}
