@@ -16,4 +16,5 @@ export interface PGSRadarEntry {
 	status: PGSRadarStatus,
 	previousStatus: PGSRadarStatus | null,
 	state: string // TODO maybe add enum
+	npmPackageName: string;
 }

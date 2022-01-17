@@ -27,10 +27,12 @@ export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	});
 }
 
-export async function writeConfigFile(config: PGSRadarLinterConfig): Promise<string> {
+export async function writeConfigFile(config: PGSRadarLinterConfig, workingDirectory: string): Promise<string> {
+	const configFilePath = getConfigFilePath(workingDirectory);
+
 	return new Promise((resolve, reject) => {
 		try {
-			writeFile(getConfigFilePath(), JSON.stringify(config,null,2), {encoding: "utf-8"}, () => resolve(getConfigFilePath()));
+			writeFile(configFilePath, JSON.stringify(config, null, 2), {encoding: "utf-8"}, () => resolve(configFilePath));
 		} catch (e) {
 			reject(e);
 		}

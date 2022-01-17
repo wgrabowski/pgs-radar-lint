@@ -1,18 +1,31 @@
-import { argv, stdout } from "process";
+import { stdout } from "process";
 import { getConfig } from "./config";
+import { PGSRadarLinterConfig } from "./config/model";
+import { defaultFormatter } from "./format";
 import { getConfigFromUser, writeConfigFile } from "./init";
+import { lint } from "./lint";
+import { getHelp, getResolvedArgs } from "./cli-utils";
+import { PGSRadarLinterFormatter } from "./format/model";
+import { CliFlags } from "./cli-utils/model";
 
 function promptNoConfig() {
-	return stdout.write("No config file found. Use --init flag to create config file\n");
+	return stdout.write(`No config file found. Use ${CliFlags.init} flag to create config file\n`);
 }
 
-async function main() {
-	const config = await getConfig().catch(() => promptNoConfig());
-	console.log(config);
+async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter = defaultFormatter) {
+	const config = await getConfig(workingDirectory).catch(() => promptNoConfig());
+	try {
+		const result = await lint(workingDirectory, config as PGSRadarLinterConfig);
+
+		stdout.write(formatter(result));
+		stdout.write("\n");
+	} catch (e) {//
+	}
 }
 
-async function init() {
-	const config = await getConfig().then(() => {
+// TODO move to separate binary, to reduce package size
+async function init(workingDirectory: string) {
+	const config = await getConfig(workingDirectory).then(() => {
 		stdout.write("Config file already exists\n");
 		return true;
 	}
@@ -20,14 +33,21 @@ async function init() {
 
 
 	if (typeof config !== "boolean") {
-		writeConfigFile(config).then(() => stdout.write("Config file has been created\n")
+		writeConfigFile(config, workingDirectory).then((configFilePath) => stdout.write(`Config file has been created in ${configFilePath}\n`)
 		);
 	}
-
 }
 
-if (argv[2] === "--init") {
-	init();
+function help() {
+	stdout.write(getHelp());
+}
+
+const {flags, workingDirectory} = getResolvedArgs();
+
+if (flags.help) {
+	help();
+} else if (flags.init) {
+	init(workingDirectory);
 } else {
-	main();
+	main(workingDirectory);
 }
