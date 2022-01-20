@@ -3,10 +3,12 @@ export interface PGSRadarLinterRuntimeArgs {
 	flags: {
 		init: boolean;
 		help: boolean;
+		summary: boolean;
 	}
 }
 
 export enum CliFlags {
 	init = "--init",
-	help = "--help"
+	help = "--help",
+	summary = "--summary"
 }

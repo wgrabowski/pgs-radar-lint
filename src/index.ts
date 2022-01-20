@@ -1,12 +1,15 @@
 import { stdout } from "process";
 import { getConfig } from "./config";
 import { PGSRadarLinterConfig } from "./config/model";
-import { defaultFormatter } from "./format";
+import { defaultFormatter, summaryFormatter } from "./format";
 import { getConfigFromUser, writeConfigFile } from "./init";
 import { lint } from "./lint";
 import { getHelp, getResolvedArgs } from "./cli-utils";
 import { PGSRadarLinterFormatter } from "./format/model";
 import { CliFlags } from "./cli-utils/model";
+
+
+const {flags, workingDirectory} = getResolvedArgs();
 
 function promptNoConfig() {
 	return stdout.write(`No config file found. Use ${CliFlags.init} flag to create config file\n`);
@@ -42,12 +45,13 @@ function help() {
 	stdout.write(getHelp());
 }
 
-const {flags, workingDirectory} = getResolvedArgs();
 
 if (flags.help) {
 	help();
 } else if (flags.init) {
 	init(workingDirectory);
+} else if (flags.summary) {
+	main(workingDirectory, summaryFormatter);
 } else {
-	main(workingDirectory);
+	main(workingDirectory, defaultFormatter);
 }

@@ -4,10 +4,10 @@ export interface PGSRadarInfo {
 }
 
 export const enum PGSRadarStatus {
-	"Adopt" = "Adopt",
-	"Trial" = "Trial",
-	"Assess" = "Asses",
-	"Hold" = "Hold"
+	Adopt = "Adopt",
+	Trial = "Trial",
+	Assess = "Assess",
+	Hold = "Hold"
 }
 
 export interface PGSRadarEntry {

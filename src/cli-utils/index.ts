@@ -7,6 +7,7 @@ export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
 		workingDirectory: getWorkingDirectory(rawOptions),
 		flags: {
 			init: hasFlag(rawOptions, CliFlags.init),
+			summary: hasFlag(rawOptions, CliFlags.summary),
 			help: hasFlag(rawOptions, CliFlags.help)
 		}
 	};
@@ -23,10 +24,16 @@ function hasFlag(rawOptions: string[], flag: CliFlags): boolean {
 export function getHelp(): string {
 	let output = "pgs-radar-lint - lint your package.json against PGS Software Technology Radar\n";
 	output += "\nUsage: pgs-radar-lint <directory>\n";
+
 	output += "\nOptions:\n";
 	output += `\t${"<directory>".padEnd(getOptionPadding())} - location of package.json (optional) - current directory is default\n`;
 	output += `\t${CliFlags.init.padEnd(getOptionPadding())} - creates config file in <directory> (interactive)\n`;
 	output += `\t${CliFlags.help.padEnd(getOptionPadding())} - shows this help\n`;
+
+	output += "\nOutput formatting:\n";
+	output += `\t${"".padEnd(getOptionPadding())} - default format (dependencies in Hold status)\n`;
+	output += `\t${CliFlags.summary.padEnd(getOptionPadding())} - print dependencies from all statuses\n`;
+
 	output += "\n\nVisit  (https://radar.pgs-soft.com) to see PGS Technology Radar\n";
 	return output;
 }
