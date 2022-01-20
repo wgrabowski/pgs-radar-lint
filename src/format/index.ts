@@ -15,6 +15,10 @@ export const summaryFormatter: PGSRadarLinterFormatter = function (results): str
 	return output;
 };
 
+export const jsonFormatter: PGSRadarLinterFormatter = function (results): string {
+	return JSON.stringify(results);
+};
+
 function listDependenciesInStatus(results: Record<PGSRadarStatus, PGSRadarEntry[]>, status: PGSRadarStatus): string {
 	let output = `No dependencies in ${PGSRadarStatusColor[status](status)} status`;
 	if (results[status].length) {

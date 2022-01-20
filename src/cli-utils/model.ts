@@ -4,11 +4,13 @@ export interface PGSRadarLinterRuntimeArgs {
 		init: boolean;
 		help: boolean;
 		summary: boolean;
+		json: boolean;
 	}
 }
 
 export enum CliFlags {
 	init = "--init",
 	help = "--help",
-	summary = "--summary"
+	summary = "--summary",
+	json = "--json"
 }

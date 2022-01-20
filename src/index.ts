@@ -1,7 +1,7 @@
 import { stdout } from "process";
 import { getConfig } from "./config";
 import { PGSRadarLinterConfig } from "./config/model";
-import { defaultFormatter, summaryFormatter } from "./format";
+import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
 import { getConfigFromUser, writeConfigFile } from "./init";
 import { lint } from "./lint";
 import { getHelp, getResolvedArgs } from "./cli-utils";
@@ -52,6 +52,8 @@ if (flags.help) {
 	init(workingDirectory);
 } else if (flags.summary) {
 	main(workingDirectory, summaryFormatter);
+} else if (flags.json) {
+	main(workingDirectory, jsonFormatter);
 } else {
 	main(workingDirectory, defaultFormatter);
 }

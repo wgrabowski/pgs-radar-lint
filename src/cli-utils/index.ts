@@ -8,7 +8,8 @@ export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
 		flags: {
 			init: hasFlag(rawOptions, CliFlags.init),
 			summary: hasFlag(rawOptions, CliFlags.summary),
-			help: hasFlag(rawOptions, CliFlags.help)
+			help: hasFlag(rawOptions, CliFlags.help),
+			json: hasFlag(rawOptions, CliFlags.json)
 		}
 	};
 }
@@ -33,6 +34,7 @@ export function getHelp(): string {
 	output += "\nOutput formatting:\n";
 	output += `\t${"".padEnd(getOptionPadding())} - default format (dependencies in Hold status)\n`;
 	output += `\t${CliFlags.summary.padEnd(getOptionPadding())} - print dependencies from all statuses\n`;
+	output += `\t${CliFlags.json.padEnd(getOptionPadding())} - print output in raw JSON\n`;
 
 	output += "\n\nVisit  (https://radar.pgs-soft.com) to see PGS Technology Radar\n";
 	return output;
