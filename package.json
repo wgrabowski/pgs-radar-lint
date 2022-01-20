@@ -3,11 +3,12 @@
 	"version": "0.0.1",
 	"description": "linter for PGS Software Technology Radar",
 	"bin": {
-		"pgs-radar-lint": "bin/pgs-radar-linter.js"
+		"pgs-radar-lint": "bin/pgs-radar-linter.js",
+		"pgs-radar-status": "bin/pgs-radar-status.js"
 	},
 	"scripts": {
-		"start": "tsc --watch src/index.ts",
-		"build": "tsc src/index.ts",
+		"start": "tsc --watch src/linter.ts src/status.ts",
+		"build": "tsc src/linter.ts src/status.ts",
 		"prepare": "npm run build",
 		"lint": "eslint src/**/*.ts"
 	},
