@@ -10,6 +10,7 @@
 		"module": "ESNext",
 		"moduleResolution": "node",
 		"esModuleInterop": true,
-		"strict": true
-	}
+		"strict": true,
+	},
+	"include": ["src/linter.ts","src/status.ts"]
 }
