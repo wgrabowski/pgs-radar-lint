@@ -7,7 +7,7 @@
 		"pgs-radar-status": "bin/pgs-radar-status.js"
 	},
 	"scripts": {
-		"start": "tsc --watch src/linter.ts src/status.ts",
+		"start": "tsc --watch -p tsconfig.json",
 		"build": "tsc -p tsconfig.json",
 		"prepare": "npm run build",
 		"lint": "eslint src/**/*.ts"
