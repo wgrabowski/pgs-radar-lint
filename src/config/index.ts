@@ -1,4 +1,4 @@
-import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from "./model";
+import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from "./model.js";
 import { readFile } from "fs";
 import { join } from "path";
 

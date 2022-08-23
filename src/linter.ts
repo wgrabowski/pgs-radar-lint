@@ -1,12 +1,12 @@
-import { stdout } from "process";
-import { getConfig } from "./config";
-import { PGSRadarLinterConfig } from "./config/model";
-import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
-import { getConfigFromUser, writeConfigFile } from "./init";
-import { lint } from "./lint";
-import { getHelp, getResolvedArgs } from "./cli-utils";
-import { PGSRadarLinterFormatter } from "./format/model";
-import { CliFlags } from "./cli-utils/model";
+import { stderr, stdout } from "process";
+import { getConfig } from "./config/index.js";
+import { PGSRadarLinterConfig } from "./config/model.js";
+import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format/index.js";
+import { getConfigFromUser, writeConfigFile } from "./init/index.js";
+import { lint } from "./lint/index.js";
+import { getHelp, getResolvedArgs } from "./cli-utils/index.js";
+import { PGSRadarLinterFormatter } from "./format/model.js";
+import { CliFlags } from "./cli-utils/model.js";
 
 
 const {flags, workingDirectory} = getResolvedArgs();
@@ -22,7 +22,9 @@ async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter
 
 		stdout.write(formatter(result));
 		stdout.write("\n");
-	} catch (e) {//
+	} catch (e) {
+		// TODO add custo formatter for errors
+		stderr.write(`\npgs-radar-lint error: ${e}\n`);
 	}
 }
 
@@ -44,7 +46,6 @@ async function init(workingDirectory: string) {
 function help() {
 	stdout.write(getHelp());
 }
-
 
 if (flags.help) {
 	help();

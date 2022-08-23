@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { dirname, extname, join, resolve } from "path";
 import { PGSRadarLinterConfig } from "../config/model";
-import { getLatestRadarEntries } from "../radar-api";
+import { getLatestRadarEntries } from "../radar-api/index.js";
 import { PGSRadarEntry, PGSRadarStatus } from "../radar-api/model";
 
 export function getDependencies(directoryPath: string): string[] {
