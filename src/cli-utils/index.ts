@@ -1,5 +1,5 @@
 import { argv, cwd } from "process";
-import { CliFlags, PGSRadarLinterRuntimeArgs } from "./model";
+import { CliFlags, PGSRadarLinterRuntimeArgs } from "./model.js";
 
 export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
 	const rawOptions = argv.slice(2);

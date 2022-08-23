@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { prompt } from "enquirer";
-import { PGSRadarLinterConfig } from "../config/model";
-import { getRadars } from "../radar-api";
-import { PGSRadarInfo } from "../radar-api/model";
+import * as enquirer from "enquirer";
+import { PGSRadarLinterConfig } from "../config/model.js";
+import { getRadars } from "../radar-api/index.js";
+import { PGSRadarInfo } from "../radar-api/model.js";
 import { writeFile } from "fs";
-import { getConfigFilePath } from "../config";
+import { getConfigFilePath } from "../config/index.js";
 
 export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars()
 		.then(radars => radars.map(radarToChoice));
 
-	return await prompt({
+	return await enquirer.prompt({
 		name: "radars",
 		message: "Which PGS Tech radar(s) you want use to check your dependencies?",
 		choices: radarsList,

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PGSRadarEntry, PGSRadarInfo, PGSRadarStatus } from "../radar-api/model";
-import { getLatestRadarEntries } from "../radar-api";
-import { PGSRadarPackageStatus } from "./model";
-import { PGSRadarStatusColor } from "../format/model";
+import { PGSRadarEntry, PGSRadarInfo, PGSRadarStatus } from "../radar-api/model.js";
+import { getLatestRadarEntries } from "../radar-api/index.js";
+import { PGSRadarPackageStatus } from "./model.js";
+import { PGSRadarStatusColor } from "../format/model.js";
 
 export async function status(radars: PGSRadarInfo[], packageNames: string[]): Promise<PGSRadarPackageStatus[]> {
 	const entriesMap: any = await Promise.all(radars.map(radarToEntries)).then(e => e.flatMap(ee => ee));
