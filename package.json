@@ -31,6 +31,6 @@
 	"dependencies": {
 		"ansi-colors": "4.1.1",
 		"enquirer": "2.3.6",
-		"node-fetch": "3.2.10"
+		"node-fetch": "3.2.8"
 	}
 }
