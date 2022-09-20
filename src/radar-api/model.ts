@@ -10,11 +10,17 @@ export const enum PGSRadarStatus {
 	Hold = "Hold"
 }
 
-export interface PGSRadarEntry {
+export interface PGSRadarBlip {
 	name: string,
 	section: string,
 	status: PGSRadarStatus,
 	previousStatus: PGSRadarStatus | null,
-	state: string // TODO maybe add enum
+	state: string
+	npmPackageName: string;
+}
+
+export interface PGSRadarEntry {
+	name: string;
+	status: PGSRadarStatus;
 	npmPackageName: string;
 }

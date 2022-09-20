@@ -11,19 +11,24 @@ import { CliFlags } from "./cli-utils/model.js";
 
 const {flags, workingDirectory} = getResolvedArgs();
 
-function promptNoConfig() {
-	return stdout.write(`No config file found. Use ${CliFlags.init} flag to create config file\n`);
+function promptNoConfig(workingDirectory: string) {
+	stdout.write(`No config file found in ${workingDirectory}.\n Use ${CliFlags.init} flag to create config file\n`);
 }
 
 async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter = defaultFormatter) {
-	const config = await getConfig(workingDirectory).catch(() => promptNoConfig());
+	const config = await getConfig(workingDirectory).catch(() => promptNoConfig(workingDirectory));
+	
+	if (!config) {
+		return;
+	}
+
 	try {
 		const result = await lint(workingDirectory, config as PGSRadarLinterConfig);
 
 		stdout.write(formatter(result));
 		stdout.write("\n");
 	} catch (e) {
-		// TODO add custo formatter for errors
+		// TODO add custom formatter for errors
 		stderr.write(`\npgs-radar-lint error: ${e}\n`);
 	}
 }

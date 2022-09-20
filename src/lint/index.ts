@@ -8,15 +8,16 @@ export function getDependencies(directoryPath: string): string[] {
 	const dependencies: string[] = [];
 	const normalizedPath = resolve(extname(directoryPath) ? dirname(directoryPath) : directoryPath);
 	const packageJson = readFileSync(join(normalizedPath, "package.json"), {encoding: "utf-8"});
-	const parsedPackgeJson = JSON.parse(packageJson);
-	if (parsedPackgeJson.dependencies) {
-		dependencies.push(...Object.keys(parsedPackgeJson.dependencies));
+	const parsedPackageJson = JSON.parse(packageJson);
+	
+	if (parsedPackageJson.dependencies) {
+		dependencies.push(...Object.keys(parsedPackageJson.dependencies));
 	}
-	if (parsedPackgeJson.devDependencies) {
-		dependencies.push(...Object.keys(parsedPackgeJson.devDependencies));
+	if (parsedPackageJson.devDependencies) {
+		dependencies.push(...Object.keys(parsedPackageJson.devDependencies));
 	}
-	if (parsedPackgeJson.optionalDependencies) {
-		dependencies.push(...Object.keys(parsedPackgeJson.optionalDependencies));
+	if (parsedPackageJson.optionalDependencies) {
+		dependencies.push(...Object.keys(parsedPackageJson.optionalDependencies));
 	}
 
 	return dependencies;

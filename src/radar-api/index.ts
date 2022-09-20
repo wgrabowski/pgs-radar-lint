@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from "./endpoints.js";
-import { PGSRadarEntry, PGSRadarInfo } from "./model.js";
+import { PGSRadarBlip, PGSRadarEntry, PGSRadarInfo } from "./model.js";
 import fetch, { Response } from "node-fetch";
 
 export async function getRadars(): Promise<PGSRadarInfo[]> {
@@ -9,16 +9,15 @@ export async function getRadars(): Promise<PGSRadarInfo[]> {
 export async function getLatestRadarEntries(radarId: string): Promise<PGSRadarEntry[]> {
 	return fetch(API_ENDPOINTS.RADAR.LATEST_BLIPS(radarId))
 		.then(response => response.ok ? response.json() : createError(response))
-		// .then(response => response.json())
 		.then(entries => {
-			// console.log(JSON.stringify(entries));
-			return (entries as PGSRadarEntry[]).map(entry => (
+			return (entries as PGSRadarBlip[]).map(({name, status, npmPackageName}) => (
 				{
-					...entry,
-					npmPackageName: entry.name.toLowerCase() // TODO this is mock
+					name,
+					status,
+					npmPackageName: npmPackageName || name.toLowerCase() // TODO this is mock
 				} as PGSRadarEntry
 			));
-		});
+		});8;
 }
 
 function createError(response: Response) {
