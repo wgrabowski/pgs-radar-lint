@@ -1,7 +1,7 @@
 import { PGSRadarEntry, PGSRadarStatus } from "../radar-api/model";
 import colors, { StyleFunction } from "ansi-colors";
 
-const {blue, green, red, yellow, black} = colors;
+const {blue, green, red, yellow} = colors;
 
 
 export type PGSRadarLinterFormatter = (results: Record<PGSRadarStatus, PGSRadarEntry[]>) => string;
