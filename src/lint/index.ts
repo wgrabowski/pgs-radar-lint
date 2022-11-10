@@ -2,14 +2,14 @@ import { readFileSync } from "fs";
 import { dirname, extname, join, resolve } from "path";
 import { PGSRadarLinterConfig } from "../config/model";
 import { getLatestRadarEntries } from "../radar-api/index.js";
-import { PGSRadarEntry, PGSRadarStatus } from "../radar-api/model";
+import { RadarPackageEntry, PGSRadarStatus } from "../radar-api/model";
 
 export function getDependencies(directoryPath: string): string[] {
 	const dependencies: string[] = [];
 	const normalizedPath = resolve(extname(directoryPath) ? dirname(directoryPath) : directoryPath);
 	const packageJson = readFileSync(join(normalizedPath, "package.json"), {encoding: "utf-8"});
 	const parsedPackageJson = JSON.parse(packageJson);
-	
+
 	if (parsedPackageJson.dependencies) {
 		dependencies.push(...Object.keys(parsedPackageJson.dependencies));
 	}
@@ -23,22 +23,22 @@ export function getDependencies(directoryPath: string): string[] {
 	return dependencies;
 }
 
-function getPackagesByStatus(radarsEntries: Awaited<PGSRadarEntry[]>[], status: PGSRadarStatus) {
+function getPackagesByStatus(radarsEntries: Awaited<RadarPackageEntry[]>[], status: PGSRadarStatus) {
 	return radarsEntries.flatMap(entry => entry).reduce((reduced, entry) => {
 		if (entry.status === status) {
-			reduced.set(entry.npmPackageName, entry);
+			reduced.set(entry.packageName, entry);
 		}
 
 		return reduced;
-	}, new Map<string, PGSRadarEntry>());
+	}, new Map<string, RadarPackageEntry>());
 }
 
 // filter dependencies that are matching list of packages from radar
-function getMatchingDependencies(dependencies: string[], packagesOnHold: Map<string, PGSRadarEntry>) {
-	return dependencies.filter(dependency => packagesOnHold.has(dependency)).map(name => packagesOnHold.get(name)) as PGSRadarEntry[];
+function getMatchingDependencies(dependencies: string[], packagesOnHold: Map<string, RadarPackageEntry>) {
+	return dependencies.filter(dependency => packagesOnHold.has(dependency)).map(name => packagesOnHold.get(name)) as RadarPackageEntry[];
 }
 
-export async function lint(directoryPath: string, config: PGSRadarLinterConfig): Promise<Record<PGSRadarStatus, PGSRadarEntry[]>> {
+export async function lint(directoryPath: string, config: PGSRadarLinterConfig): Promise<Record<PGSRadarStatus, RadarPackageEntry[]>> {
 	const radarIds = config.radars.map(radar => radar.spreadsheetId);
 	const dependencies = getDependencies(directoryPath);
 	const radarsEntries = await Promise.all(radarIds.map(radarId => getLatestRadarEntries(radarId)));

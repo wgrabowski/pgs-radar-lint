@@ -17,7 +17,7 @@ function promptNoConfig(workingDirectory: string) {
 
 async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter = defaultFormatter) {
 	const config = await getConfig(workingDirectory).catch(() => promptNoConfig(workingDirectory));
-	
+
 	if (!config) {
 		return;
 	}
@@ -34,16 +34,15 @@ async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter
 }
 
 // TODO move to separate binary, to reduce package size
+// TODO allow overwriting existing config
 async function init(workingDirectory: string) {
 	const config = await getConfig(workingDirectory).then(() => {
 		stdout.write("Config file already exists\n");
-		return true;
-	}
-	).catch(() => getConfigFromUser());
+	})
+		.catch(() => getConfigFromUser());
 
-
-	if (typeof config !== "boolean") {
-		writeConfigFile(config, workingDirectory).then((configFilePath) => stdout.write(`Config file has been created in ${configFilePath}\n`)
+	if (typeof config !== "boolean" || config !== false) {
+		writeConfigFile(config as PGSRadarLinterConfig, workingDirectory).then((configFilePath) => stdout.write(`Config file has been created in ${configFilePath}\n`)
 		);
 	}
 }

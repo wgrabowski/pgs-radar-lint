@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PGSRadarEntry, PGSRadarInfo, PGSRadarStatus } from "../radar-api/model.js";
+import { RadarPackageEntry, PGSRadarInfo, PGSRadarStatus } from "../radar-api/model.js";
 import { getLatestRadarEntries } from "../radar-api/index.js";
 import { PGSRadarPackageStatus } from "./model.js";
 import { PGSRadarStatusColor } from "../format/model.js";
@@ -45,7 +45,7 @@ function radarToEntries(radar: PGSRadarInfo): Promise<unknown> {
 		}));
 }
 
-function getPackageStatusInRadar(packageName: string, radarEntries: PGSRadarEntry[]): PGSRadarStatus | null {
+function getPackageStatusInRadar(packageName: string, radarEntries: RadarPackageEntry[]): PGSRadarStatus | null {
 	const matchingEntry = radarEntries.find(entry => entry?.npmPackageName === packageName);
 	return matchingEntry?.status || null;
 }
