@@ -11,7 +11,8 @@
 		"start": "tsc --watch -p tsconfig.json",
 		"build": "tsc -p tsconfig.json",
 		"prepare": "npm run build",
-		"lint": "eslint src/**/*.ts"
+		"lint": "eslint src/**/*.ts",
+		"selfcheck": "pgs-radar-lint"
 	},
 	"keywords": [],
 	"author": "Wojciech Grabowski wgrabowski@pgs-soft.com",

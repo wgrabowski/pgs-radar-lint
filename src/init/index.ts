@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import * as enquirer from "enquirer";
+import enquirer from "enquirer";
 import { PGSRadarLinterConfig } from "../config/model.js";
 import { getRadars } from "../radar-api/index.js";
 import { PGSRadarInfo } from "../radar-api/model.js";
