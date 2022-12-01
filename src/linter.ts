@@ -27,9 +27,11 @@ async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter
 
 		stdout.write(formatter(result));
 		stdout.write("\n");
+		process.exit((result.Hold.length && !flags.allowHold) > 0 ? 1 : 0);
 	} catch (e) {
 		// TODO add custom formatter for errors
 		stderr.write(`\npgs-radar-lint error: ${e}\n`);
+		process.exit(2);
 	}
 }
 

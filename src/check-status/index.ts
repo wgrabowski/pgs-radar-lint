@@ -46,6 +46,6 @@ function radarToEntries(radar: PGSRadarInfo): Promise<unknown> {
 }
 
 function getPackageStatusInRadar(packageName: string, radarEntries: RadarPackageEntry[]): PGSRadarStatus | null {
-	const matchingEntry = radarEntries.find(entry => entry?.npmPackageName === packageName);
+	const matchingEntry = radarEntries.find(entry => entry?.packageName === packageName);
 	return matchingEntry?.status || null;
 }

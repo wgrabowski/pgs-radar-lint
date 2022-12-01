@@ -24,11 +24,14 @@ Output formatting:
 
 Visit  (https://radar.pgs-soft.com) to see PGS Technology Radar
 ```
-
 ## pgs-radar-status
 
 `pgs-radar-status` prints status of provided npm packages list from all PGS Technology radars
 
+## Exit codes
+By default exit code is `1` when dependencies in `Hold` status are found, `2` when any other error occurs and 0 in all other cases.
+### `--allowHold`
+`--allowHold` flag forces exiting with 0 code even when `Hold` dependencies are found. This can be used i.e. when `pgs-radar-lint` is included in CI pipeline and should not break it.
 # local testing
 Run `npm install && npm build && npm link` for testing binaries on local machine
 
