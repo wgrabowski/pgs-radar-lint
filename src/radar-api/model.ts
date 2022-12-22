@@ -1,3 +1,4 @@
+export const NPM_FEATURE_FLAG_NAME = "NPM";
 export interface PGSRadarInfo {
 	title: string,
 	spreadsheetId: string;
@@ -15,4 +16,14 @@ export interface RadarPackageEntry {
 	status: PGSRadarStatus;
 	packageName: string;
 	replacementPackageName: string;
+}
+
+export interface FeatureFlag {
+	name: string;
+	enabled: boolean;
+}
+
+export interface RadarFeatures {
+	radarName: string,
+	featureFlags: FeatureFlag[];
 }

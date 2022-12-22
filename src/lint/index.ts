@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { dirname, extname, join, resolve } from "path";
 import { PGSRadarLinterConfig } from "../config/model";
-import { getLatestRadarEntries } from "../radar-api/index.js";
+import { getPackages } from "../radar-api/index.js";
 import { RadarPackageEntry, PGSRadarStatus } from "../radar-api/model";
 
 export function getDependencies(directoryPath: string): string[] {
@@ -41,7 +41,7 @@ function getMatchingDependencies(dependencies: string[], packagesOnHold: Map<str
 export async function lint(directoryPath: string, config: PGSRadarLinterConfig): Promise<Record<PGSRadarStatus, RadarPackageEntry[]>> {
 	const radarIds = config.radars.map(radar => radar.spreadsheetId);
 	const dependencies = getDependencies(directoryPath);
-	const radarsEntries = await Promise.all(radarIds.map(radarId => getLatestRadarEntries(radarId)));
+	const radarsEntries = await Promise.all(radarIds.map(radarId => getPackages(radarId)));
 
 	return {
 		[PGSRadarStatus.Adopt]: getMatchingDependencies(dependencies, getPackagesByStatus(radarsEntries, PGSRadarStatus.Adopt)),

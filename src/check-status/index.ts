@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RadarPackageEntry, PGSRadarInfo, PGSRadarStatus } from "../radar-api/model.js";
-import { getLatestRadarEntries } from "../radar-api/index.js";
+import { getPackages } from "../radar-api/index.js";
 import { PGSRadarPackageStatus } from "./model.js";
 import { PGSRadarStatusColor } from "../format/model.js";
 
@@ -38,7 +38,7 @@ export function format(result: PGSRadarPackageStatus[]): string {
 
 
 function radarToEntries(radar: PGSRadarInfo): Promise<unknown> {
-	return getLatestRadarEntries(radar.spreadsheetId)
+	return getPackages(radar.spreadsheetId)
 		.then(entries => ({
 			name: radar.title,
 			entries
