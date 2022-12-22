@@ -30,7 +30,7 @@ async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter
 		process.exit((result.Hold.length && !flags.allowHold) > 0 ? 1 : 0);
 	} catch (e) {
 		// TODO add custom formatter for errors
-		stderr.write(`\npgs-radar-lint error: ${e}\n`);
+		stderr.write(`\npgs-radar-lint error: ${JSON.stringify(e,null,2)}\n`);
 		process.exit(2);
 	}
 }
@@ -52,6 +52,8 @@ async function init(workingDirectory: string) {
 function help() {
 	stdout.write(getHelp());
 }
+
+
 
 if (flags.help) {
 	help();

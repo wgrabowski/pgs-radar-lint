@@ -1,5 +1,6 @@
 import { argv, cwd } from "process";
 import { CliFlags, PGSRadarLinterRuntimeArgs } from "./model.js";
+import { CONFIG_FILE_NAME } from "../config/model.js";
 
 export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
 	const rawOptions = argv.slice(2);
@@ -29,7 +30,7 @@ export function getHelp(): string {
 
 	output += "\nOptions:\n";
 	output += `\t${"<directory>".padEnd(getOptionPadding())} - directory with package.json - (optional) current directory is default\n`;
-	output += `\t${CliFlags.init.padEnd(getOptionPadding())} - creates config file (pgs-radar.json) in <directory> (interactive)\n`;
+	output += `\t${CliFlags.init.padEnd(getOptionPadding())} - creates config file (${CONFIG_FILE_NAME}) in <directory> (interactive)\n`;
 	output += `\t${CliFlags.help.padEnd(getOptionPadding())} - shows this help\n`;
 
 	output += "\nOutput formatting:\n";

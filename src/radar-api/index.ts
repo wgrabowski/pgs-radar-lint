@@ -1,15 +1,33 @@
 import { API_ENDPOINTS } from "./endpoints.js";
-import { RadarPackageEntry, PGSRadarInfo } from "./model.js";
+import { RadarPackageEntry, PGSRadarInfo, RadarFeatures, NPM_FEATURE_FLAG_NAME } from "./model.js";
 import fetch, { Response } from "node-fetch";
 
 export async function getRadars(): Promise<PGSRadarInfo[]> {
+	return Promise.all([getFeatures(), getAllRadars()])
+		.then(([features, radars]) => {
+			const namesOfRadarsWithNpmPackages = features
+				.filter(entry => {
+					return entry.featureFlags.some(({name,enabled}) => name === NPM_FEATURE_FLAG_NAME && enabled);
+				}).map(({radarName}) => radarName);
+
+			return radars.filter(({title}) => namesOfRadarsWithNpmPackages.includes(title));
+		});
+}
+
+async function getAllRadars(): Promise<PGSRadarInfo[]> {
 	return fetch(API_ENDPOINTS.RADARS()).then(r => r.json()) as Promise<PGSRadarInfo[]>;
 }
 
-export async function getLatestRadarEntries(radarId: string): Promise<RadarPackageEntry[]> {
-	return fetch(API_ENDPOINTS.RADAR.LATEST_BLIPS(radarId))
-		.then(response => response.ok ? response.json() : createError(response))
-		.then(packages=> packages as RadarPackageEntry[]);
+async function getFeatures(): Promise<RadarFeatures[]> {
+	return fetch(API_ENDPOINTS.FEATURES()).then(r => r.json()) as Promise<RadarFeatures[]>;
+}
+
+export async function getPackages(radarId: string): Promise<RadarPackageEntry[]> {
+	return fetch(API_ENDPOINTS.RADAR.PACKAGES(radarId))
+		.then(response => response.ok ? response.json(): createError(response))
+		.then((entries) => {
+			return (entries as Array<any>).map(entry => ({...entry, status: entry.status.name})) as RadarPackageEntry[];
+		});
 }
 
 function createError(response: Response) {

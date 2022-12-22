@@ -8,7 +8,7 @@ import { getConfigFilePath } from "../config/index.js";
 
 export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars()
-		.then(radars => radars.map(radarToChoice));
+		.then(radars =>radars.map(radarToChoice));
 
 	return await enquirer.prompt({
 		name: "radars",
