@@ -1,8 +1,8 @@
 import { stderr, stdout } from "process";
-import { getConfig } from "./config/index.js";
+import { checkIfConfigExists, getConfig } from "./config/index.js";
 import { PGSRadarLinterConfig } from "./config/model.js";
 import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format/index.js";
-import { getConfigFromUser, writeConfigFile } from "./init/index.js";
+import { askToOverwriteConfigFile, getConfigFromUser, writeConfigFile } from "./init/index.js";
 import { lint } from "./lint/index.js";
 import { getHelp, getResolvedArgs } from "./cli-utils/index.js";
 import { PGSRadarLinterFormatter } from "./format/model.js";
@@ -12,7 +12,7 @@ import { CliFlags } from "./cli-utils/model.js";
 const {flags, workingDirectory} = getResolvedArgs();
 
 function promptNoConfig(workingDirectory: string) {
-	stdout.write(`No config file found in ${workingDirectory}.\n Use ${CliFlags.init} flag to create config file\n`);
+	stdout.write(`No valid config file found in ${workingDirectory}.\n Use ${CliFlags.init} flag to create config file\n`);
 }
 
 async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter = defaultFormatter) {
@@ -30,7 +30,7 @@ async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter
 		process.exit((result.Hold.length && !flags.allowHold) > 0 ? 1 : 0);
 	} catch (e) {
 		// TODO add custom formatter for errors
-		stderr.write(`\npgs-radar-lint error: ${JSON.stringify(e,null,2)}\n`);
+		stderr.write(`\npgs-radar-lint error: ${JSON.stringify(e, null, 2)}\n`);
 		process.exit(2);
 	}
 }
@@ -38,15 +38,20 @@ async function main(workingDirectory: string, formatter: PGSRadarLinterFormatter
 // TODO move to separate binary, to reduce package size
 // TODO allow overwriting existing config
 async function init(workingDirectory: string) {
-	const config = await getConfig(workingDirectory).then(() => {
-		stdout.write("Config file already exists\n");
-	})
-		.catch(() => getConfigFromUser());
+	const configExists = checkIfConfigExists(workingDirectory);
+	let overwrite;
 
-	if (typeof config !== "boolean" || config !== false) {
-		writeConfigFile(config as PGSRadarLinterConfig, workingDirectory).then((configFilePath) => stdout.write(`Config file has been created in ${configFilePath}\n`)
-		);
+	if (configExists) {
+		overwrite = await askToOverwriteConfigFile(workingDirectory);
 	}
+
+	if (overwrite === false) {
+		return;
+	}
+
+	const config = await getConfigFromUser();
+	writeConfigFile(config as PGSRadarLinterConfig, workingDirectory)
+		.then((configFilePath) => stdout.write(`Config file has been created in ${configFilePath}\n`));
 }
 
 function help() {

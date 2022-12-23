@@ -8,7 +8,7 @@ import { getConfigFilePath } from "../config/index.js";
 
 export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars()
-		.then(radars =>radars.map(radarToChoice));
+		.then(radars => radars.map(radarToChoice));
 
 	return await enquirer.prompt({
 		name: "radars",
@@ -37,6 +37,15 @@ export async function writeConfigFile(config: PGSRadarLinterConfig, workingDirec
 			reject(e);
 		}
 	});
+}
+
+export async function askToOverwriteConfigFile(workingDirectory: string): Promise<boolean> {
+	return await enquirer.prompt<{overwrite:boolean}>( {
+		name: "overwrite",
+		type: "confirm",
+		message: `Config file exists in ${workingDirectory}. Overwrite it?`,
+		initial: false
+	}).then(({overwrite})=>overwrite);
 }
 
 function radarToChoice({title, spreadsheetId}: PGSRadarInfo) {
