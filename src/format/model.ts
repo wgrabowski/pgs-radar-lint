@@ -1,4 +1,4 @@
-import { RadarPackageEntry, PGSRadarStatus } from "../radar-api/model";
+import { RadarPackageEntry, PGSRadarStatus } from "../api/model";
 import colors, { StyleFunction } from "ansi-colors";
 
 const {blue, green, red, yellow, bgRed, bgGreen, bgYellow, bgBlue} = colors;

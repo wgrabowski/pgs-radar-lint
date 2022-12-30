@@ -1,12 +1,12 @@
 import { stderr, stdout } from "process";
-import { checkIfConfigExists, getConfig } from "./config/index.js";
-import { PGSRadarLinterConfig } from "./config/model.js";
-import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format/index.js";
-import { askToOverwriteConfigFile, getConfigFromUser, writeConfigFile } from "./init/index.js";
-import { lint } from "./lint/index.js";
-import { getHelp, getResolvedArgs } from "./cli-utils/index.js";
-import { PGSRadarLinterFormatter } from "./format/model.js";
-import { CliFlags } from "./cli-utils/model.js";
+import { checkIfConfigExists, getConfig } from "./config/index";
+import { PGSRadarLinterConfig } from "./config/model";
+import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format/index";
+import { askToOverwriteConfigFile, getConfigFromUser, writeConfigFile } from "./init/index";
+import { lint } from "./lint/index";
+import { getHelp, getResolvedArgs } from "./cli-utils/index";
+import { PGSRadarLinterFormatter } from "./format/model";
+import { CliFlags } from "./cli-utils/model";
 
 
 const {flags, workingDirectory} = getResolvedArgs();

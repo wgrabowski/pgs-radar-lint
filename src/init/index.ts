@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import enquirer from "enquirer";
-import { PGSRadarLinterConfig } from "../config/model.js";
-import { getRadars } from "../radar-api/index.js";
-import { PGSRadarInfo } from "../radar-api/model.js";
+import { PGSRadarLinterConfig } from "../config/model";
+
+import { getRadars, PGSRadarInfo } from "../api/index";
 import { writeFile } from "fs";
-import { getConfigFilePath } from "../config/index.js";
+import { getConfigFilePath } from "../config/index";
 
 export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars()

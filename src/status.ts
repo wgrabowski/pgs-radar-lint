@@ -1,6 +1,6 @@
 import { argv, stdout } from "process";
-import { format, status } from "./check-status/index.js";
-import { getRadars } from "./radar-api/index.js";
+import { format, status } from "./check-status/index";
+import { getRadars } from "./api";
 
 const packageNames = argv.slice(2);
 

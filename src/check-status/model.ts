@@ -1,4 +1,4 @@
-import { PGSRadarStatus } from "../radar-api/model";
+import { PGSRadarStatus } from "../api";
 
 export interface PGSRadarPackageStatus {
 	packageName: string;
