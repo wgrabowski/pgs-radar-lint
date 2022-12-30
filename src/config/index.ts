@@ -3,7 +3,7 @@ import { readFile, existsSync } from "fs";
 import { join } from "path";
 import { stdout } from "process";
 import { CliFlagLong, CliFlagShort } from "../cli";
-
+import { getRadars } from "../api";
 
 export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
@@ -23,15 +23,24 @@ export function getConfig(workingDirectory: string): Promise<PGSRadarLinterConfi
 			}
 		});
 	}).then((resolved) => resolved, (rejected) => {
-		promptNoConfig(workingDirectory);
+		printNoConfigMessage(workingDirectory);
 		return rejected;
 	});
 }
 
-export function checkIfConfigExists(workingDirectory: string): boolean {
+export function doesConfigExists(workingDirectory: string): boolean {
 	return existsSync(getConfigFilePath(workingDirectory));
 }
 
-function promptNoConfig(workingDirectory: string) {
+export async function isConfigIncompatible(workingDirectory: string): Promise<boolean> {
+	const config = await getConfig(workingDirectory);
+	const availableRadars = await getRadars();
+
+	const configRadarsIds = config.radars.map(({spreadsheetId}) => spreadsheetId);
+	const availableRadarsIds = availableRadars.map(({spreadsheetId}) => spreadsheetId);
+	return configRadarsIds.some(radar => !availableRadarsIds.includes(radar));
+}
+
+function printNoConfigMessage(workingDirectory: string) {
 	stdout.write(`No valid config file found in ${workingDirectory}.\n Use [${CliFlagLong.init} | ${CliFlagShort.init}] flag to create config file\n`);
 }
