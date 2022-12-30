@@ -1,12 +1,13 @@
-import { checkIfConfigExists, getConfigFilePath } from "../../config";
+import { doesConfigExists, getConfigFilePath } from "../../config";
 import { PGSRadarLinterConfig } from "../../config/model";
 import { stdout } from "process";
 import { getRadars, PGSRadarInfo } from "../../api";
-import enquirer from "enquirer";
+
 import { writeFile } from "fs";
+import enquirer = require("enquirer");
 
 export async function init(workingDirectory: string) {
-	const configExists = checkIfConfigExists(workingDirectory);
+	const configExists = doesConfigExists(workingDirectory);
 	let overwrite;
 
 	if (configExists) {
@@ -58,12 +59,12 @@ async function writeConfigFile(config: PGSRadarLinterConfig, workingDirectory: s
 }
 
 async function askToOverwriteConfigFile(workingDirectory: string): Promise<boolean> {
-	return await enquirer.prompt<{overwrite:boolean}>( {
+	return await enquirer.prompt<{ overwrite: boolean }>({
 		name: "overwrite",
 		type: "confirm",
 		message: `Config file exists in ${workingDirectory}. Overwrite it?`,
 		initial: false
-	}).then(({overwrite})=>overwrite);
+	}).then(({overwrite}) => overwrite);
 }
 
 function radarToChoice({title, spreadsheetId}: PGSRadarInfo) {
