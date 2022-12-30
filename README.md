@@ -7,19 +7,19 @@ lint your package.json against PGS Software Technology Radar
 `pgs-radar-lint` lints package.json against  PGS Technology Radar (https://radar.pgs-soft.com)
 
 ```
-pgs-radar-lint - lint your package.json against PGS Software Technology Radar
+pgs-radar-lint - lint dependencies from your package.json against PGS Software Technology Radar
 
 Usage: pgs-radar-lint <directory>
 
 Options:
-        <directory>  - location of package.json (optional) - current directory is default
-        --init       - creates config file in <directory> (interactive)
-        --help       - shows this help
+        <directory>      - directory with package.json - (optional) current directory is default
+        -i, --init           - creates config file (.radarlintrc) in <directory> (interactive)
+        -h, --help           - shows this help
 
 Output formatting:
-                     - default format (dependencies in Hold status)
-        --summary    - print dependencies from all statuses
-        --json       - print output in raw JSON
+                             - default format (dependencies in Hold status)
+        -s, --summary        - print dependencies from all statuses
+        -j, --json           - print output in raw JSON
 
 
 Visit  (https://radar.pgs-soft.com) to see PGS Technology Radar
@@ -29,9 +29,12 @@ Visit  (https://radar.pgs-soft.com) to see PGS Technology Radar
 `pgs-radar-status` prints status of provided npm packages list from all PGS Technology radars
 
 ## Exit codes
-By default exit code is `1` when dependencies in `Hold` status are found, `2` when any other error occurs and 0 in all other cases.
-### `--allowHold`
-`--allowHold` flag forces exiting with 0 code even when `Hold` dependencies are found. This can be used i.e. when `pgs-radar-lint` is included in CI pipeline and should not break it.
+`pgs-radar-lint` exit codes:
+ - `1` dependencies in `Hold` status found
+ - `2` an error occured
+ - `0` success and any other scenario
 # local testing
-Run `npm install && npm build && npm link` for testing binaries on local machine
+Use  `npm link` for local testing. See docs [here](https://docs.npmjs.com/cli/v9/commands/npm-link)
+
+For development use `npm start`, which will first link package locally and then watch for changes in code and rebuild code.
 

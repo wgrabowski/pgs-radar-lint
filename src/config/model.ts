@@ -1,4 +1,4 @@
-import { PGSRadarInfo } from "../radar-api/model";
+import { PGSRadarInfo } from "../api";
 
 export const CONFIG_FILE_NAME = ".radarlintrc";
 
