@@ -11,7 +11,6 @@ async function main() {
 	stdout.write(format(results));
 }
 
-console.log("xd");
 if (!packageNames.length) {
 	stdout.write("Provide npm package names, separated by space\n");
 	exit(0);
