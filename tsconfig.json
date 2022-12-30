@@ -12,10 +12,10 @@
 		"moduleResolution": "node",
 		"esModuleInterop": true,
 		"strict": true,
-		"outDir": "dist"
+		"outDir": "dist",
 	},
 	"include": [
-		"src/linter.ts",
-		"src/status.ts"
+		"src/commands/lint/index.ts",
+		"src/commands/status/index.ts"
 	]
 }

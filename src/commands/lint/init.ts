@@ -1,12 +1,28 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { checkIfConfigExists, getConfigFilePath } from "../../config";
+import { PGSRadarLinterConfig } from "../../config/model";
+import { stdout } from "process";
+import { getRadars, PGSRadarInfo } from "../../api";
 import enquirer from "enquirer";
-import { PGSRadarLinterConfig } from "../config/model";
-
-import { getRadars, PGSRadarInfo } from "../api";
 import { writeFile } from "fs";
-import { getConfigFilePath } from "../config";
 
-export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
+export async function init(workingDirectory: string) {
+	const configExists = checkIfConfigExists(workingDirectory);
+	let overwrite;
+
+	if (configExists) {
+		overwrite = await askToOverwriteConfigFile(workingDirectory);
+	}
+
+	if (overwrite === false) {
+		return;
+	}
+
+	const config = await getConfigFromUser();
+	writeConfigFile(config as PGSRadarLinterConfig, workingDirectory)
+		.then((configFilePath) => stdout.write(`Config file has been created in ${configFilePath}\n`));
+}
+
+async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars()
 		.then(radars => radars.map(radarToChoice));
 
@@ -18,8 +34,10 @@ export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 		required: true,
 		result(names) {
 			// Typescript definitions for enquirer are not complete
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			const mappedResult = this.map(names);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			// Typescript definitions for enquirer are not complete
 			return (names as string[]).map(name => ({title: name, spreadsheetId: mappedResult[name]})) as unknown as string;
@@ -27,7 +45,7 @@ export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	});
 }
 
-export async function writeConfigFile(config: PGSRadarLinterConfig, workingDirectory: string): Promise<string> {
+async function writeConfigFile(config: PGSRadarLinterConfig, workingDirectory: string): Promise<string> {
 	const configFilePath = getConfigFilePath(workingDirectory);
 
 	return new Promise((resolve, reject) => {
@@ -39,7 +57,7 @@ export async function writeConfigFile(config: PGSRadarLinterConfig, workingDirec
 	});
 }
 
-export async function askToOverwriteConfigFile(workingDirectory: string): Promise<boolean> {
+async function askToOverwriteConfigFile(workingDirectory: string): Promise<boolean> {
 	return await enquirer.prompt<{overwrite:boolean}>( {
 		name: "overwrite",
 		type: "confirm",
@@ -54,4 +72,3 @@ function radarToChoice({title, spreadsheetId}: PGSRadarInfo) {
 		value: spreadsheetId
 	};
 }
-

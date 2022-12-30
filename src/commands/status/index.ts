@@ -1,6 +1,6 @@
-import { argv, stdout } from "process";
-import { format, status } from "./check-status";
-import { getRadars } from "./api";
+import { argv, exit, stdout } from "process";
+import { getRadars } from "../../api";
+import { format,status } from "./status";
 
 const packageNames = argv.slice(2);
 
@@ -11,8 +11,10 @@ async function main() {
 	stdout.write(format(results));
 }
 
+console.log("xd");
 if (!packageNames.length) {
-	stdout.write("Provide package names, separated by space\n");
+	stdout.write("Provide npm package names, separated by space\n");
+	exit(0);
 } else {
 	main();
 }

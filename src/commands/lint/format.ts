@@ -1,5 +1,8 @@
-import { PGSRadarLinterFormatter, PGSRadarStatusColor } from "./model";
-import { PGSRadarStatus, RadarPackageEntry } from "../api";
+import { PGSRadarStatus, RadarPackageEntry } from "../../api";
+import { getDecoratedStatusName } from "../../cli";
+
+
+export type PGSRadarLinterFormatter = (results: Record<PGSRadarStatus, RadarPackageEntry[]>) => string;
 
 export const defaultFormatter: PGSRadarLinterFormatter = function (results): string {
 	return listDependenciesInHoldStatus(results);
@@ -20,9 +23,9 @@ export const jsonFormatter: PGSRadarLinterFormatter = function (results): string
 };
 
 function listDependenciesInStatus(results: Record<PGSRadarStatus, RadarPackageEntry[]>, status: PGSRadarStatus): string {
-	let output = `No dependencies in ${PGSRadarStatusColor[status](status)} status`;
+	let output = `No dependencies in ${getDecoratedStatusName(status)} status`;
 	if (results[status].length) {
-		output = `Dependencies in ${PGSRadarStatusColor[status](status)} status`;
+		output = `Dependencies in ${getDecoratedStatusName(status)} status`;
 		output += results[status].map(entry => `\n- ${entry.packageName} (${entry.name})`);
 	}
 	output += "\n";
@@ -31,7 +34,7 @@ function listDependenciesInStatus(results: Record<PGSRadarStatus, RadarPackageEn
 }
 
 function listDependenciesInHoldStatus(results: Record<PGSRadarStatus, RadarPackageEntry[]>): string {
-	const decoratedStatusName = PGSRadarStatusColor[PGSRadarStatus.Hold](PGSRadarStatus.Hold);
+	const decoratedStatusName = getDecoratedStatusName(PGSRadarStatus.Hold);
 	const holdDependencies = results[PGSRadarStatus.Hold];
 	let output = `No dependencies in ${decoratedStatusName} status.`;
 	if (holdDependencies.length) {
