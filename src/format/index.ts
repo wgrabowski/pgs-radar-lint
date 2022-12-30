@@ -1,5 +1,5 @@
 import { PGSRadarLinterFormatter, PGSRadarStatusColor } from "./model";
-import { PGSRadarStatus, RadarPackageEntry } from "../api/index";
+import { PGSRadarStatus, RadarPackageEntry } from "../api";
 
 export const defaultFormatter: PGSRadarLinterFormatter = function (results): string {
 	return listDependenciesInHoldStatus(results);

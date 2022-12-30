@@ -2,9 +2,9 @@
 import enquirer from "enquirer";
 import { PGSRadarLinterConfig } from "../config/model";
 
-import { getRadars, PGSRadarInfo } from "../api/index";
+import { getRadars, PGSRadarInfo } from "../api";
 import { writeFile } from "fs";
-import { getConfigFilePath } from "../config/index";
+import { getConfigFilePath } from "../config";
 
 export async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars()

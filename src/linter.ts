@@ -1,10 +1,10 @@
 import { stderr, stdout } from "process";
-import { checkIfConfigExists, getConfig } from "./config/index";
+import { checkIfConfigExists, getConfig } from "./config";
 import { PGSRadarLinterConfig } from "./config/model";
-import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format/index";
-import { askToOverwriteConfigFile, getConfigFromUser, writeConfigFile } from "./init/index";
-import { lint } from "./lint/index";
-import { getHelp, getResolvedArgs } from "./cli-utils/index";
+import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
+import { askToOverwriteConfigFile, getConfigFromUser, writeConfigFile } from "./init";
+import { lint } from "./lint";
+import { getHelp, getResolvedArgs } from "./cli-utils";
 import { PGSRadarLinterFormatter } from "./format/model";
 import { CliFlags } from "./cli-utils/model";
 

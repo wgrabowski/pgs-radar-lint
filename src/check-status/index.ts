@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getPackages, PGSRadarInfo, PGSRadarStatus, RadarPackageEntry } from "../api/index";
+import { getPackages, PGSRadarInfo, PGSRadarStatus, RadarPackageEntry } from "../api";
 import { PGSRadarPackageStatus } from "./model";
 import { PGSRadarStatusColor } from "../format/model";
 

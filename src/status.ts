@@ -1,5 +1,5 @@
 import { argv, stdout } from "process";
-import { format, status } from "./check-status/index";
+import { format, status } from "./check-status";
 import { getRadars } from "./api";
 
 const packageNames = argv.slice(2);
