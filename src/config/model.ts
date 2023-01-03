@@ -1,6 +1,6 @@
-import { PGSRadarInfo } from "../api";
+import { PGSRadarInfo } from '../api';
 
-export const CONFIG_FILE_NAME = ".radarlintrc";
+export const CONFIG_FILE_NAME = '.radarlintrc';
 
 export interface PGSRadarLinterConfig {
 	radars: PGSRadarInfo[];
