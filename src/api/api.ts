@@ -1,11 +1,11 @@
-import { API_ENDPOINTS } from './endpoints';
+import { API_ENDPOINTS } from "./endpoints";
 import {
 	RadarPackageEntry,
 	PGSRadarInfo,
 	RadarFeatures,
 	NPM_FEATURE_FLAG_NAME,
-} from './model';
-import fetch, { Response } from 'node-fetch-native';
+} from "./model";
+import fetch, { Response } from "node-fetch-native";
 
 export async function getRadars(): Promise<PGSRadarInfo[]> {
 	return Promise.all([getFeatures(), getAllRadars()]).then(

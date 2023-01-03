@@ -1,7 +1,7 @@
-import { argv, exit, stderr, stdout } from 'process';
-import { getRadars } from '../../api';
-import { format, status } from './status';
-import { errorFormatter } from '../lint/errors';
+import { argv, exit, stderr, stdout } from "process";
+import { getRadars } from "../../api";
+import { format, status } from "./status";
+import { errorFormatter } from "../lint/errors";
 
 const packageNames = argv.slice(2);
 
@@ -13,7 +13,7 @@ async function main() {
 }
 
 if (!packageNames.length) {
-	stdout.write('Provide npm package names, separated by space\n');
+	stdout.write("Provide npm package names, separated by space\n");
 	exit(0);
 } else {
 	main().catch((e) => {

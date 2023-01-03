@@ -1,10 +1,10 @@
-import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from './model';
-import { existsSync, readFile } from 'fs';
-import { join } from 'path';
-import { stdout } from 'process';
-import { CliFlagLong, CliFlagShort } from '../cli';
-import { getRadars } from '../api';
-import { InvalidConfigError } from '../commands/lint/errors';
+import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from "./model";
+import { existsSync, readFile } from "fs";
+import { join } from "path";
+import { stdout } from "process";
+import { CliFlagLong, CliFlagShort } from "../cli";
+import { getRadars } from "../api";
+import { InvalidConfigError } from "../commands/lint/errors";
 
 export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
@@ -16,7 +16,7 @@ export function getConfig(
 	return new Promise((resolve, reject) => {
 		readFile(
 			getConfigFilePath(workingDirectory),
-			{ encoding: 'utf-8' },
+			{ encoding: "utf-8" },
 			(err, data) => {
 				if (err) {
 					reject(err.message);

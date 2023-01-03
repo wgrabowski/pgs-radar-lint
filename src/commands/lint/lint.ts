@@ -1,11 +1,11 @@
-import { stderr, stdout } from 'process';
-import { readFileSync } from 'fs';
-import { defaultFormatter, PGSRadarLinterFormatter } from './format';
-import { getPackages, PGSRadarStatus, RadarPackageEntry } from '../../api';
-import { getConfig } from '../../config';
-import { dirname, extname, join, resolve } from 'path';
-import { PGSRadarLinterConfig } from '../../config/model';
-import { errorFormatter } from './errors';
+import { stderr, stdout } from "process";
+import { readFileSync } from "fs";
+import { defaultFormatter, PGSRadarLinterFormatter } from "./format";
+import { getPackages, PGSRadarStatus, RadarPackageEntry } from "../../api";
+import { getConfig } from "../../config";
+import { dirname, extname, join, resolve } from "path";
+import { PGSRadarLinterConfig } from "../../config/model";
+import { errorFormatter } from "./errors";
 
 export async function lint(
 	workingDirectory: string,
@@ -25,7 +25,7 @@ export async function lint(
 	);
 
 	stdout.write(formatter(result));
-	stdout.write('\n');
+	stdout.write("\n");
 	process.exit(result.Hold.length > 0 ? 1 : 0);
 }
 
@@ -34,8 +34,8 @@ function getDependencies(directoryPath: string): string[] {
 	const normalizedPath = resolve(
 		extname(directoryPath) ? dirname(directoryPath) : directoryPath
 	);
-	const packageJson = readFileSync(join(normalizedPath, 'package.json'), {
-		encoding: 'utf-8',
+	const packageJson = readFileSync(join(normalizedPath, "package.json"), {
+		encoding: "utf-8",
 	});
 	const parsedPackageJson = JSON.parse(packageJson);
 

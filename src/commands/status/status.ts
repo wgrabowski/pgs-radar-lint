@@ -4,9 +4,9 @@ import {
 	PGSRadarInfo,
 	PGSRadarStatus,
 	RadarPackageEntry,
-} from '../../api';
-import { PGSRadarPackageStatus } from './model';
-import { getDecoratedStatusName } from '../../cli';
+} from "../../api";
+import { PGSRadarPackageStatus } from "./model";
+import { getDecoratedStatusName } from "../../cli";
 
 export async function status(
 	radars: PGSRadarInfo[],
@@ -35,12 +35,12 @@ function getFormattedStatusInRadar(
 	packageStatus: PGSRadarPackageStatus
 ) {
 	const status = packageStatus.statuses[radarName];
-	const coloredStatus = status ? getDecoratedStatusName(status) : 'n/a';
+	const coloredStatus = status ? getDecoratedStatusName(status) : "n/a";
 	return `\t${radarName.padEnd(radarNamePadding)}: ${coloredStatus}`;
 }
 
 export function format(result: PGSRadarPackageStatus[]): string {
-	let output = '';
+	let output = "";
 	output += result
 		.map((status) => {
 			let packageOutput = `\n${status.packageName}\n`;
@@ -51,11 +51,11 @@ export function format(result: PGSRadarPackageStatus[]): string {
 				.map((radarName) =>
 					getFormattedStatusInRadar(radarName, radarNamePadding, status)
 				)
-				.join('\n');
+				.join("\n");
 
 			return packageOutput;
 		})
-		.join('\n');
+		.join("\n");
 	return `${output}\n`;
 }
 

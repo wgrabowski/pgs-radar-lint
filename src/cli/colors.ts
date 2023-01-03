@@ -1,5 +1,5 @@
-import * as colors from 'ansi-colors';
-import { PGSRadarStatus, RadarPackageEntry } from '../api';
+import * as colors from "ansi-colors";
+import { PGSRadarStatus, RadarPackageEntry } from "../api";
 
 const {
 	blue,

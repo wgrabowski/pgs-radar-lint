@@ -1,6 +1,6 @@
-import { argv, cwd, stdout } from 'process';
-import { CliFlagLong, CliFlagShort, PGSRadarLinterRuntimeArgs } from './model';
-import { CONFIG_FILE_NAME } from '../config/model';
+import { argv, cwd, stdout } from "process";
+import { CliFlagLong, CliFlagShort, PGSRadarLinterRuntimeArgs } from "./model";
+import { CONFIG_FILE_NAME } from "../config/model";
 
 export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
 	const rawOptions = argv.slice(2);
@@ -16,7 +16,7 @@ export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
 }
 
 function getWorkingDirectory(rawOptions: string[]): string {
-	return rawOptions.filter((option) => !option.startsWith('-'))[0] || cwd();
+	return rawOptions.filter((option) => !option.startsWith("-"))[0] || cwd();
 }
 
 function hasFlag(
@@ -33,11 +33,11 @@ export function printHelp() {
 
 export function getHelp(): string {
 	let output =
-		'pgs-radar-lint - lint dependencies from your package.json against PGS Software Technology Radar\n';
-	output += '\nUsage: pgs-radar-lint <directory>\n';
+		"pgs-radar-lint - lint dependencies from your package.json against PGS Software Technology Radar\n";
+	output += "\nUsage: pgs-radar-lint <directory>\n";
 
-	output += '\nOptions:\n';
-	output += `\t${'<directory>'.padEnd(
+	output += "\nOptions:\n";
+	output += `\t${"<directory>".padEnd(
 		getOptionPadding()
 	)} - directory with package.json - (optional) current directory is default\n`;
 	output += `\t${CliFlagShort.init}, ${CliFlagLong.init.padEnd(
@@ -47,8 +47,8 @@ export function getHelp(): string {
 		getOptionPadding()
 	)} - shows this help\n`;
 
-	output += '\nOutput formatting:\n';
-	output += `\t    ${''.padEnd(
+	output += "\nOutput formatting:\n";
+	output += `\t    ${"".padEnd(
 		getOptionPadding()
 	)} - default format (dependencies in Hold status)\n`;
 	output += `\t${CliFlagShort.summary}, ${CliFlagLong.summary.padEnd(
@@ -59,14 +59,14 @@ export function getHelp(): string {
 	)} - print output in raw JSON\n`;
 
 	output +=
-		'\n\nVisit  (https://radar.pgs-soft.com) to see PGS Technology Radar\n';
+		"\n\nVisit  (https://radar.pgs-soft.com) to see PGS Technology Radar\n";
 	return output;
 }
 
 function getOptionPadding(): number {
 	return (
 		Math.max(
-			'<directory>'.length,
+			"<directory>".length,
 			...Object.values(CliFlagLong).map((value) => value.length)
 		) +
 		1 +

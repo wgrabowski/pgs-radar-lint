@@ -1,4 +1,4 @@
-import { PGSRadarStatus } from '../../api';
+import { PGSRadarStatus } from "../../api";
 
 export interface PGSRadarPackageStatus {
 	packageName: string;

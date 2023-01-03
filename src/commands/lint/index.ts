@@ -1,11 +1,11 @@
-import { exit, stderr } from 'process';
+import { exit, stderr } from "process";
 
-import { lint } from './lint';
-import { init } from './init';
-import { CliFlag, getResolvedArgs, printHelp } from '../../cli';
-import { defaultFormatter, jsonFormatter, summaryFormatter } from './format';
-import { isConfigIncompatible } from '../../config';
-import { errorFormatter, IncompatibleConfigError } from './errors';
+import { lint } from "./lint";
+import { init } from "./init";
+import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
+import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
+import { isConfigIncompatible } from "../../config";
+import { errorFormatter, IncompatibleConfigError } from "./errors";
 
 const { flags, workingDirectory } = getResolvedArgs();
 

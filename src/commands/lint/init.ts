@@ -1,10 +1,10 @@
-import { doesConfigExists, getConfigFilePath } from '../../config';
-import { PGSRadarLinterConfig } from '../../config/model';
-import { stdout } from 'process';
-import { getRadars, PGSRadarInfo } from '../../api';
+import { doesConfigExists, getConfigFilePath } from "../../config";
+import { PGSRadarLinterConfig } from "../../config/model";
+import { stdout } from "process";
+import { getRadars, PGSRadarInfo } from "../../api";
 
-import { writeFile } from 'fs';
-import enquirer = require('enquirer');
+import { writeFile } from "fs";
+import enquirer = require("enquirer");
 
 export async function init(workingDirectory: string) {
 	const configExists = doesConfigExists(workingDirectory);
@@ -31,10 +31,10 @@ async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	);
 
 	return await enquirer.prompt({
-		name: 'radars',
-		message: 'Which PGS Tech radar(s) you want use to check your dependencies?',
+		name: "radars",
+		message: "Which PGS Tech radar(s) you want use to check your dependencies?",
 		choices: radarsList,
-		type: 'multiselect',
+		type: "multiselect",
 		required: true,
 		result(names) {
 			// Typescript definitions for enquirer are not complete
@@ -63,7 +63,7 @@ async function writeConfigFile(
 			writeFile(
 				configFilePath,
 				JSON.stringify(config, null, 2),
-				{ encoding: 'utf-8' },
+				{ encoding: "utf-8" },
 				() => resolve(configFilePath)
 			);
 		} catch (e) {
@@ -77,8 +77,8 @@ async function askToOverwriteConfigFile(
 ): Promise<boolean> {
 	return await enquirer
 		.prompt<{ overwrite: boolean }>({
-			name: 'overwrite',
-			type: 'confirm',
+			name: "overwrite",
+			type: "confirm",
 			message: `Config file exists in ${workingDirectory}. Overwrite it?`,
 			initial: false,
 		})

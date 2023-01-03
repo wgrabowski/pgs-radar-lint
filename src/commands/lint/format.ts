@@ -1,5 +1,5 @@
-import { PGSRadarStatus, RadarPackageEntry } from '../../api';
-import { getDecoratedStatusName } from '../../cli';
+import { PGSRadarStatus, RadarPackageEntry } from "../../api";
+import { getDecoratedStatusName } from "../../cli";
 
 export type PGSRadarLinterFormatter = (
 	results: Record<PGSRadarStatus, RadarPackageEntry[]>
@@ -14,7 +14,7 @@ export const defaultFormatter: PGSRadarLinterFormatter = function (
 export const summaryFormatter: PGSRadarLinterFormatter = function (
 	results
 ): string {
-	let output = '';
+	let output = "";
 	output += listDependenciesInStatus(results, PGSRadarStatus.Adopt);
 	output += listDependenciesInStatus(results, PGSRadarStatus.Trial);
 	output += listDependenciesInStatus(results, PGSRadarStatus.Assess);
@@ -39,7 +39,7 @@ function listDependenciesInStatus(
 			(entry) => `\n- ${entry.packageName} (${entry.name})`
 		);
 	}
-	output += '\n';
+	output += "\n";
 
 	return output;
 }
@@ -61,9 +61,9 @@ function listDependenciesInHoldStatus(
 				}
 				return entryOutput;
 			})
-			.join('\n');
+			.join("\n");
 	}
-	output += '\n';
+	output += "\n";
 
 	return output;
 }
