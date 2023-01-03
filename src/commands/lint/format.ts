@@ -21,7 +21,6 @@ export const summaryFormatter: PGSRadarLinterFormatter = function (results): str
 export const jsonFormatter: PGSRadarLinterFormatter = function (results): string {
 	return JSON.stringify(results);
 };
-
 function listDependenciesInStatus(results: Record<PGSRadarStatus, RadarPackageEntry[]>, status: PGSRadarStatus): string {
 	let output = `No dependencies in ${getDecoratedStatusName(status)} status`;
 	if (results[status].length) {

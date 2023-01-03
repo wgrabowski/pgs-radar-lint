@@ -1,9 +1,10 @@
 import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from "./model";
-import { readFile, existsSync } from "fs";
+import { existsSync, readFile } from "fs";
 import { join } from "path";
 import { stdout } from "process";
 import { CliFlagLong, CliFlagShort } from "../cli";
 import { getRadars } from "../api";
+import { InvalidConfigError } from "../commands/lint/errors";
 
 export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
@@ -18,13 +19,10 @@ export function getConfig(workingDirectory: string): Promise<PGSRadarLinterConfi
 				try {
 					resolve(JSON.parse(data));
 				} catch (e) {
-					reject("Invalid config file");
+					reject(new InvalidConfigError());
 				}
 			}
 		});
-	}).then((resolved) => resolved, (rejected) => {
-		printNoConfigMessage(workingDirectory);
-		return rejected;
 	});
 }
 
