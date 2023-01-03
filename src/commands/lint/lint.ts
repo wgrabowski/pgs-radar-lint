@@ -5,25 +5,21 @@ import { getPackages, PGSRadarStatus, RadarPackageEntry } from "../../api";
 import { getConfig } from "../../config";
 import { dirname, extname, join, resolve } from "path";
 import { PGSRadarLinterConfig } from "../../config/model";
+import { errorFormatter } from "./errors";
 
 export async function lint(workingDirectory: string, formatter: PGSRadarLinterFormatter = defaultFormatter) {
-	const config = await getConfig(workingDirectory);
+	const config = await getConfig(workingDirectory).catch(	error=>stderr.write(errorFormatter(error)));
 
 	if (!config) {
 		return;
 	}
 
-	try {
-		const result = await lintPackages(workingDirectory, config as PGSRadarLinterConfig);
+	const result = await lintPackages(workingDirectory, config as PGSRadarLinterConfig);
 
-		stdout.write(formatter(result));
-		stdout.write("\n");
-		process.exit((result.Hold.length) > 0 ? 1 : 0);
-	} catch (e) {
-		// TODO add custom formatter for errors
-		stderr.write(`\npgs-radar-lint error: ${JSON.stringify(e, null, 2)}\n`);
-		process.exit(2);
-	}
+	stdout.write(formatter(result));
+	stdout.write("\n");
+	process.exit((result.Hold.length) > 0 ? 1 : 0);
+
 }
 
 function getDependencies(directoryPath: string): string[] {

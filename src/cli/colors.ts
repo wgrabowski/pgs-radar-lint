@@ -1,7 +1,7 @@
 import * as colors from "ansi-colors";
 import { PGSRadarStatus, RadarPackageEntry } from "../api";
 
-const {blue, green, red, yellow, bgRed, bgGreen, bgYellow, bgBlue} = colors;
+const {blue, green, red, yellow, bgRed, bgGreen, bgYellow, bgBlue,bgYellowBright} = colors;
 
 
 const PGSRadarStatusColor: Record<PGSRadarStatus, colors.StyleFunction> = {
@@ -11,13 +11,12 @@ const PGSRadarStatusColor: Record<PGSRadarStatus, colors.StyleFunction> = {
 	[PGSRadarStatus.Adopt]: green.bold,
 };
 
-export const PGSRadarStatusColorInverted: Record<PGSRadarStatus, colors.StyleFunction> = {
-	[PGSRadarStatus.Hold]: bgRed.bold,
-	[PGSRadarStatus.Assess]: bgYellow.bold,
-	[PGSRadarStatus.Trial]: bgBlue.bold,
-	[PGSRadarStatus.Adopt]: bgGreen.bold,
-};
 
-export function getDecoratedStatusName(status:PGSRadarStatus):string{
+export function getDecoratedStatusName(status: PGSRadarStatus): string {
 	return PGSRadarStatusColor[status](status);
 }
+
+export function getErrorTitle(text: string): string {
+	return `${red(text)}`;
+}
+
