@@ -7,8 +7,7 @@ import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
 import { isConfigIncompatible } from "../../config";
 import { errorFormatter, IncompatibleConfigError } from "./errors";
 
-
-const {flags, workingDirectory} = getResolvedArgs();
+const { flags, workingDirectory } = getResolvedArgs();
 
 function getFormatter(flags: Record<CliFlag, boolean>) {
 	if (flags.json) {
@@ -37,7 +36,7 @@ async function main() {
 	}
 }
 
-main().catch(e=>{
+main().catch((e) => {
 	stderr.write(errorFormatter(e));
 	exit(2);
 });

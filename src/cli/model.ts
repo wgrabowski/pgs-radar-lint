@@ -1,7 +1,7 @@
 export type CliFlag = "init" | "help" | "summary" | "json";
 export interface PGSRadarLinterRuntimeArgs {
 	workingDirectory: string;
-	flags: Record<CliFlag,boolean>;
+	flags: Record<CliFlag, boolean>;
 }
 
 export enum CliFlagLong {
@@ -10,9 +10,9 @@ export enum CliFlagLong {
 	summary = "--summary",
 	json = "--json",
 }
-export enum CliFlagShort{
+export enum CliFlagShort {
 	init = "-i",
 	help = "-h",
 	summary = "-s",
-	json = "-j"
+	json = "-j",
 }

@@ -1,6 +1,6 @@
 export const NPM_FEATURE_FLAG_NAME = "NPM";
 export interface PGSRadarInfo {
-	title: string,
+	title: string;
 	spreadsheetId: string;
 }
 
@@ -8,7 +8,7 @@ export const enum PGSRadarStatus {
 	Adopt = "Adopt",
 	Trial = "Trial",
 	Assess = "Assess",
-	Hold = "Hold"
+	Hold = "Hold",
 }
 
 export interface RadarPackageEntry {
@@ -24,6 +24,6 @@ export interface FeatureFlag {
 }
 
 export interface RadarFeatures {
-	radarName: string,
+	radarName: string;
 	featureFlags: FeatureFlag[];
 }

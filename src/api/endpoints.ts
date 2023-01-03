@@ -4,6 +4,7 @@ export const API_ENDPOINTS = {
 	RADARS: () => `${PGS_RADAR_API_URL}/radars`,
 	FEATURES: () => `${PGS_RADAR_API_URL}/radars/features`,
 	RADAR: {
-		PACKAGES: (radarId: string) => `${PGS_RADAR_API_URL}/radars/${radarId}/packages`
-	}
+		PACKAGES: (radarId: string) =>
+			`${PGS_RADAR_API_URL}/radars/${radarId}/packages`,
+	},
 };
