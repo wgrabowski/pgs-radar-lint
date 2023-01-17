@@ -4,8 +4,8 @@ import { lint } from "./lint";
 import { init } from "./init";
 import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
 import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
-import { isConfigIncompatible } from "../../config";
-import { errorFormatter, IncompatibleConfigError } from "./errors";
+import { checkConfig } from "../../config";
+import { errorFormatter } from "../../errors";
 
 const { flags, workingDirectory } = getResolvedArgs();
 
@@ -24,15 +24,10 @@ async function main() {
 		printHelp();
 		exit(0);
 	} else if (flags.init) {
-		init(workingDirectory);
+		await init(workingDirectory);
 	} else {
-		// TODO add better error handling and message formatting
-		const configIncompatible = await isConfigIncompatible(workingDirectory);
-		if (configIncompatible) {
-			throw new IncompatibleConfigError();
-		}
-
-		lint(workingDirectory, getFormatter(flags));
+		await checkConfig(workingDirectory);
+		await lint(workingDirectory, getFormatter(flags));
 	}
 }
 

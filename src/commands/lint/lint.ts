@@ -5,15 +5,16 @@ import { getPackages, PGSRadarStatus, RadarPackageEntry } from "../../api";
 import { getConfig } from "../../config";
 import { dirname, extname, join, resolve } from "path";
 import { PGSRadarLinterConfig } from "../../config/model";
-import { errorFormatter } from "./errors";
+import { errorFormatter } from "../../errors";
 
 export async function lint(
 	workingDirectory: string,
 	formatter: PGSRadarLinterFormatter = defaultFormatter
 ) {
-	const config = await getConfig(workingDirectory).catch((error) =>
-		stderr.write(errorFormatter(error))
-	);
+	const config = await getConfig(workingDirectory).catch((error) => {
+		console.log("ghere");
+		stderr.write(errorFormatter(error));
+	});
 
 	if (!config) {
 		return;

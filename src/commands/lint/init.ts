@@ -1,6 +1,6 @@
 import { doesConfigExists, getConfigFilePath } from "../../config";
 import { PGSRadarLinterConfig } from "../../config/model";
-import { stdout } from "process";
+import { exit, stdout } from "process";
 import { getRadars, PGSRadarInfo } from "../../api";
 
 import { writeFile } from "fs";
@@ -29,6 +29,11 @@ async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 	const radarsList = await getRadars().then((radars) =>
 		radars.map(radarToChoice)
 	);
+
+	if (radarsList.length === 0) {
+		stdout.write("Currently API returns no radars to choose from.\n");
+		exit(0);
+	}
 
 	return await enquirer.prompt({
 		name: "radars",

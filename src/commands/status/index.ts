@@ -1,7 +1,7 @@
 import { argv, exit, stderr, stdout } from "process";
 import { getRadars } from "../../api";
 import { format, status } from "./status";
-import { errorFormatter } from "../lint/errors";
+import { errorFormatter } from "../../errors";
 
 const packageNames = argv.slice(2);
 

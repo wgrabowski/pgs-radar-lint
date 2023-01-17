@@ -1,10 +1,8 @@
 import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from "./model";
 import { existsSync, readFile } from "fs";
 import { join } from "path";
-import { stdout } from "process";
-import { CliFlagLong, CliFlagShort } from "../cli";
 import { getRadars } from "../api";
-import { InvalidConfigError } from "../commands/lint/errors";
+import { IncompatibleConfigError, InvalidConfigError } from "../errors";
 
 export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
@@ -32,17 +30,27 @@ export function getConfig(
 	});
 }
 
+export async function checkConfig(workingDirectory: string) {
+	if (await isConfigInvalid(workingDirectory)) {
+		throw new InvalidConfigError();
+	}
+
+	if (await isConfigIncompatible(workingDirectory)) {
+		throw new IncompatibleConfigError();
+	}
+}
+
 export function doesConfigExists(workingDirectory: string): boolean {
 	return existsSync(getConfigFilePath(workingDirectory));
 }
 
-export async function isConfigIncompatible(
+async function isConfigIncompatible(
 	workingDirectory: string
 ): Promise<boolean> {
 	const config = await getConfig(workingDirectory);
 	const availableRadars = await getRadars();
 
-	const configRadarsIds = config.radars.map(
+	const configRadarsIds = config.radars?.map(
 		({ spreadsheetId }) => spreadsheetId
 	);
 	const availableRadarsIds = availableRadars.map(
@@ -51,8 +59,15 @@ export async function isConfigIncompatible(
 	return configRadarsIds.some((radar) => !availableRadarsIds.includes(radar));
 }
 
-function printNoConfigMessage(workingDirectory: string) {
-	stdout.write(
-		`No valid config file found in ${workingDirectory}.\n Use [${CliFlagLong.init} | ${CliFlagShort.init}] flag to create config file\n`
+async function isConfigInvalid(workingDirectory: string) {
+	const config = await getConfig(workingDirectory);
+	// this checks if config has proper structure
+	return (
+		!Array.isArray(config.radars) ||
+		config.radars.some(
+			(entry) =>
+				typeof entry.spreadsheetId === "undefined" ||
+				typeof entry.title === "undefined"
+		)
 	);
 }
