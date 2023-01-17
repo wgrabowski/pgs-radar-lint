@@ -1,6 +1,6 @@
 import { argv, cwd, stdout } from "process";
 import { CliFlagLong, CliFlagShort, LinterRuntimeArgs } from "./model";
-import { CONFIG_FILE_NAME } from "../config/model";
+import { CONFIG_FILE_NAME, LINT_EXECUTABLE_NAME } from "../config";
 
 export function getResolvedArgs(): LinterRuntimeArgs {
 	const rawOptions = argv.slice(2);
@@ -32,14 +32,13 @@ export function printHelp() {
 }
 
 export function getHelp(): string {
-	let output =
-		"pgs-radar-lint - lint dependencies from your package.json against PGS Software Technology Radar\n";
-	output += "\nUsage: pgs-radar-lint <directory>\n";
+	let output = `${LINT_EXECUTABLE_NAME} - lint dependencies from your package.json against PGS Software Technology Radar\n`;
+	output += "\nUsage: ${LINT_EXECUTABLE_NAME} <directory>\n";
 
 	output += "\nOptions:\n";
 	output += `\t${"<directory>".padEnd(
 		getOptionPadding()
-	)} - directory with package.json - (optional) current directory is default\n`;
+	)} - directory with package.json and ${CONFIG_FILE_NAME} files - (optional) current directory is default\n`;
 	output += `\t${CliFlagShort.init}, ${CliFlagLong.init.padEnd(
 		getOptionPadding()
 	)} - creates config file (${CONFIG_FILE_NAME}) in <directory> (interactive)\n`;

@@ -1,4 +1,5 @@
-const API_URL = "https://radar.pgs-soft.com/api";
+import { API_URL } from "../config";
+
 export const API_ENDPOINTS = {
 	RADARS: () => `${API_URL}/radars`,
 	FEATURES: () => `${API_URL}/radars/features`,

@@ -1,4 +1,3 @@
-export const NPM_FEATURE_FLAG_NAME = "NPM";
 export interface Radar {
 	title: string;
 	spreadsheetId: string;

@@ -1,9 +1,14 @@
-import { CONFIG_FILE_NAME, LinterConfig } from "./model";
 import { existsSync, readFile } from "fs";
 import { join } from "path";
-import { getRadars } from "../api";
-import { IncompatibleConfigError, InvalidConfigError } from "../errors";
+
 import { stdout } from "process";
+import { CONFIG_FILE_NAME } from "../../config";
+import { IncompatibleConfigError, InvalidConfigError } from "../../errors";
+import { getRadars, Radar } from "../../api";
+
+export interface LinterConfig {
+	radars: Radar[];
+}
 
 export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
@@ -51,6 +56,7 @@ export async function checkConfig(workingDirectory: string): Promise<boolean> {
 export function doesConfigExists(workingDirectory: string): boolean {
 	return existsSync(getConfigFilePath(workingDirectory));
 }
+
 export function hasPackageJson(workingDirectory: string): boolean {
 	return existsSync(join(workingDirectory, "package.json"));
 }
