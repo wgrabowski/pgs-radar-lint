@@ -3,19 +3,22 @@
 	"version": "0.0.1",
 	"description": "linter for PGS Software Technology Radar",
 	"bin": {
-		"pgs-radar-lint": "bin/pgs-radar-linter.js",
-		"pgs-radar-status": "bin/pgs-radar-status.js"
+		"pgs-radar-lint": "bin/linter.js",
+		"pgs-radar-status": "bin/status.js"
 	},
 	"scripts": {
 		"prestart": "npm run build && npm link",
 		"start": "tsc --watch -p tsconfig.json",
 		"build": "tsc -p tsconfig.json",
-		"prepare": "npm run build",
-		"lint": "eslint src/**/*.ts",
-		"selfcheck": "pgs-radar-lint"
+		"prepareOnly": "npm run build",
+		"lint": "eslint src/**/*.ts"
 	},
 	"keywords": [],
 	"author": "Wojciech Grabowski wgrabowski@pgs-soft.com",
+	"contributors": ["Wojciech Grabowski wgrabowski@pgs-soft.com"],
+	"bugs": {
+		"url": "https://github.com/wgrabowski/pgs-radar-lint/issues"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "16.0.1",
 		"@commitlint/config-conventional": "16.0.0",

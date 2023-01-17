@@ -1,8 +1,8 @@
 import { argv, cwd, stdout } from "process";
-import { CliFlagLong, CliFlagShort, PGSRadarLinterRuntimeArgs } from "./model";
+import { CliFlagLong, CliFlagShort, LinterRuntimeArgs } from "./model";
 import { CONFIG_FILE_NAME } from "../config/model";
 
-export function getResolvedArgs(): PGSRadarLinterRuntimeArgs {
+export function getResolvedArgs(): LinterRuntimeArgs {
 	const rawOptions = argv.slice(2);
 	return {
 		workingDirectory: getWorkingDirectory(rawOptions),

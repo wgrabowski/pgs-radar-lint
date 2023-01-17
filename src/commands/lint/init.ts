@@ -1,7 +1,7 @@
 import { doesConfigExists, getConfigFilePath } from "../../config";
-import { PGSRadarLinterConfig } from "../../config/model";
+import { LinterConfig } from "../../config/model";
 import { exit, stdout } from "process";
-import { getRadars, PGSRadarInfo } from "../../api";
+import { getRadars, Radar } from "../../api";
 
 import { writeFile } from "fs";
 import enquirer = require("enquirer");
@@ -19,13 +19,13 @@ export async function init(workingDirectory: string) {
 	}
 
 	const config = await getConfigFromUser();
-	writeConfigFile(config as PGSRadarLinterConfig, workingDirectory).then(
+	writeConfigFile(config as LinterConfig, workingDirectory).then(
 		(configFilePath) =>
 			stdout.write(`Config file has been created in ${configFilePath}\n`)
 	);
 }
 
-async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
+async function getConfigFromUser(): Promise<LinterConfig> {
 	const radarsList = await getRadars().then((radars) =>
 		radars.map(radarToChoice)
 	);
@@ -37,7 +37,8 @@ async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 
 	return await enquirer.prompt({
 		name: "radars",
-		message: "Which PGS Tech radar(s) you want use to check your dependencies?",
+		message:
+			"Which radars(s) you want use to check your dependencies?\n(press space to select, move with arrows)",
 		choices: radarsList,
 		type: "multiselect",
 		required: true,
@@ -58,7 +59,7 @@ async function getConfigFromUser(): Promise<PGSRadarLinterConfig> {
 }
 
 async function writeConfigFile(
-	config: PGSRadarLinterConfig,
+	config: LinterConfig,
 	workingDirectory: string
 ): Promise<string> {
 	const configFilePath = getConfigFilePath(workingDirectory);
@@ -90,7 +91,7 @@ async function askToOverwriteConfigFile(
 		.then(({ overwrite }) => overwrite);
 }
 
-function radarToChoice({ title, spreadsheetId }: PGSRadarInfo) {
+function radarToChoice({ title, spreadsheetId }: Radar) {
 	return {
 		name: title,
 		value: spreadsheetId,

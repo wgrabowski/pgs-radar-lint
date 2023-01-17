@@ -1,5 +1,5 @@
 export type CliFlag = "init" | "help" | "summary" | "json";
-export interface PGSRadarLinterRuntimeArgs {
+export interface LinterRuntimeArgs {
 	workingDirectory: string;
 	flags: Record<CliFlag, boolean>;
 }
