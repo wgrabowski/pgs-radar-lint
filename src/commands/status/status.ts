@@ -1,30 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-	getPackages,
-	PGSRadarInfo,
-	PGSRadarStatus,
-	RadarPackageEntry,
-} from "../../api";
-import { PGSRadarPackageStatus } from "./model";
+import { getPackages, Radar, RadarPackageEntry, Status } from "../../api";
+import { PackageStatus } from "./model";
 import { getDecoratedStatusName } from "../../cli";
 
 export async function status(
-	radars: PGSRadarInfo[],
+	radars: Radar[],
 	packageNames: string[]
-): Promise<PGSRadarPackageStatus[]> {
+): Promise<PackageStatus[]> {
 	const entriesMap: any = await Promise.all(radars.map(radarToEntries)).then(
-		(e) => e.flatMap((ee) => ee)
+		(entries) => entries.flatMap((value) => value)
 	);
 
-	const mappedResult: PGSRadarPackageStatus[] = packageNames.map(
-		(packageName) => ({
-			packageName,
-			statuses: entriesMap.reduce((result: any, em: any) => {
-				result[em.name] = getPackageStatusInRadar(packageName, em.entries);
-				return result;
-			}, {}),
-		})
-	);
+	const mappedResult: PackageStatus[] = packageNames.map((packageName) => ({
+		packageName,
+		statuses: entriesMap.reduce((result: any, em: any) => {
+			result[em.name] = getPackageStatusInRadar(packageName, em.entries);
+			return result;
+		}, {}),
+	}));
 
 	return Promise.resolve(mappedResult);
 }
@@ -32,14 +25,14 @@ export async function status(
 function getFormattedStatusInRadar(
 	radarName: string,
 	radarNamePadding: number,
-	packageStatus: PGSRadarPackageStatus
+	packageStatus: PackageStatus
 ) {
 	const status = packageStatus.statuses[radarName];
 	const coloredStatus = status ? getDecoratedStatusName(status) : "n/a";
 	return `\t${radarName.padEnd(radarNamePadding)}: ${coloredStatus}`;
 }
 
-export function format(result: PGSRadarPackageStatus[]): string {
+export function format(result: PackageStatus[]): string {
 	let output = "";
 	output += result
 		.map((status) => {
@@ -59,7 +52,7 @@ export function format(result: PGSRadarPackageStatus[]): string {
 	return `${output}\n`;
 }
 
-function radarToEntries(radar: PGSRadarInfo): Promise<unknown> {
+function radarToEntries(radar: Radar): Promise<unknown> {
 	return getPackages(radar.spreadsheetId).then((entries) => ({
 		name: radar.title,
 		entries,
@@ -69,7 +62,7 @@ function radarToEntries(radar: PGSRadarInfo): Promise<unknown> {
 function getPackageStatusInRadar(
 	packageName: string,
 	radarEntries: RadarPackageEntry[]
-): PGSRadarStatus | null {
+): Status | null {
 	const matchingEntry = radarEntries.find(
 		(entry) => entry?.packageName === packageName
 	);

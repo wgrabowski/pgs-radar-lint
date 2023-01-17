@@ -1,4 +1,4 @@
-import { CONFIG_FILE_NAME, PGSRadarLinterConfig } from "./model";
+import { CONFIG_FILE_NAME, LinterConfig } from "./model";
 import { existsSync, readFile } from "fs";
 import { join } from "path";
 import { getRadars } from "../api";
@@ -8,9 +8,7 @@ export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
 }
 
-export function getConfig(
-	workingDirectory: string
-): Promise<PGSRadarLinterConfig> {
+export function getConfig(workingDirectory: string): Promise<LinterConfig> {
 	return new Promise((resolve, reject) => {
 		readFile(
 			getConfigFilePath(workingDirectory),

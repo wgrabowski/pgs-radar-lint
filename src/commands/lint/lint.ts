@@ -1,15 +1,15 @@
 import { stderr, stdout } from "process";
 import { readFileSync } from "fs";
-import { defaultFormatter, PGSRadarLinterFormatter } from "./format";
-import { getPackages, PGSRadarStatus, RadarPackageEntry } from "../../api";
+import { defaultFormatter, LinterResultsFormatter } from "./format";
+import { getPackages, RadarPackageEntry, Status } from "../../api";
 import { getConfig } from "../../config";
 import { dirname, extname, join, resolve } from "path";
-import { PGSRadarLinterConfig } from "../../config/model";
+import { LinterConfig } from "../../config/model";
 import { errorFormatter } from "../../errors";
 
 export async function lint(
 	workingDirectory: string,
-	formatter: PGSRadarLinterFormatter = defaultFormatter
+	formatter: LinterResultsFormatter = defaultFormatter
 ) {
 	const config = await getConfig(workingDirectory).catch((error) => {
 		stderr.write(errorFormatter(error));
@@ -19,10 +19,7 @@ export async function lint(
 		return;
 	}
 
-	const result = await lintPackages(
-		workingDirectory,
-		config as PGSRadarLinterConfig
-	);
+	const result = await lintPackages(workingDirectory, config as LinterConfig);
 
 	stdout.write(formatter(result));
 	stdout.write("\n");
@@ -54,7 +51,7 @@ function getDependencies(directoryPath: string): string[] {
 
 function getPackagesByStatus(
 	radarsEntries: Awaited<RadarPackageEntry[]>[],
-	status: PGSRadarStatus
+	status: Status
 ) {
 	return radarsEntries
 		.flatMap((entry) => entry)
@@ -82,8 +79,8 @@ function getDependenciesIncludedInRadar(
 
 async function lintPackages(
 	directoryPath: string,
-	config: PGSRadarLinterConfig
-): Promise<Record<PGSRadarStatus, RadarPackageEntry[]>> {
+	config: LinterConfig
+): Promise<Record<Status, RadarPackageEntry[]>> {
 	const radarIds = config.radars.map((radar) => radar.spreadsheetId);
 	const dependencies = getDependencies(directoryPath);
 	const radarsEntries = await Promise.all(
@@ -91,21 +88,21 @@ async function lintPackages(
 	);
 
 	return {
-		[PGSRadarStatus.Adopt]: getDependenciesIncludedInRadar(
+		[Status.Adopt]: getDependenciesIncludedInRadar(
 			dependencies,
-			getPackagesByStatus(radarsEntries, PGSRadarStatus.Adopt)
+			getPackagesByStatus(radarsEntries, Status.Adopt)
 		),
-		[PGSRadarStatus.Assess]: getDependenciesIncludedInRadar(
+		[Status.Assess]: getDependenciesIncludedInRadar(
 			dependencies,
-			getPackagesByStatus(radarsEntries, PGSRadarStatus.Assess)
+			getPackagesByStatus(radarsEntries, Status.Assess)
 		),
-		[PGSRadarStatus.Trial]: getDependenciesIncludedInRadar(
+		[Status.Trial]: getDependenciesIncludedInRadar(
 			dependencies,
-			getPackagesByStatus(radarsEntries, PGSRadarStatus.Trial)
+			getPackagesByStatus(radarsEntries, Status.Trial)
 		),
-		[PGSRadarStatus.Hold]: getDependenciesIncludedInRadar(
+		[Status.Hold]: getDependenciesIncludedInRadar(
 			dependencies,
-			getPackagesByStatus(radarsEntries, PGSRadarStatus.Hold)
+			getPackagesByStatus(radarsEntries, Status.Hold)
 		),
 	};
 }

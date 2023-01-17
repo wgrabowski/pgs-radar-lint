@@ -1,14 +1,14 @@
 import { API_ENDPOINTS } from "./endpoints";
 import {
 	NPM_FEATURE_FLAG_NAME,
-	PGSRadarInfo,
+	Radar,
 	RadarFeatures,
 	RadarPackageEntry,
 } from "./model";
 import fetch, { Response } from "node-fetch-native";
 import { ApiError } from "../errors";
 
-export async function getRadars(): Promise<PGSRadarInfo[]> {
+export async function getRadars(): Promise<Radar[]> {
 	return Promise.all([getFeatures(), getAllRadars()])
 		.then(([features, radars]) => {
 			const namesOfRadarsWithNpmPackages = features
@@ -28,12 +28,12 @@ export async function getRadars(): Promise<PGSRadarInfo[]> {
 		});
 }
 
-async function getAllRadars(): Promise<PGSRadarInfo[]> {
+async function getAllRadars(): Promise<Radar[]> {
 	return fetch(API_ENDPOINTS.RADARS())
 		.then((r) => r.json())
 		.catch(() => {
 			throw new ApiError();
-		}) as Promise<PGSRadarInfo[]>;
+		}) as Promise<Radar[]>;
 }
 
 async function getFeatures(): Promise<RadarFeatures[]> {

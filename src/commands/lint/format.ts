@@ -1,36 +1,36 @@
-import { PGSRadarStatus, RadarPackageEntry } from "../../api";
+import { RadarPackageEntry, Status } from "../../api";
 import { getDecoratedStatusName } from "../../cli";
 
-export type PGSRadarLinterFormatter = (
-	results: Record<PGSRadarStatus, RadarPackageEntry[]>
+export type LinterResultsFormatter = (
+	results: Record<Status, RadarPackageEntry[]>
 ) => string;
 
-export const defaultFormatter: PGSRadarLinterFormatter = function (
+export const defaultFormatter: LinterResultsFormatter = function (
 	results
 ): string {
 	return listDependenciesInHoldStatus(results);
 };
 
-export const summaryFormatter: PGSRadarLinterFormatter = function (
+export const summaryFormatter: LinterResultsFormatter = function (
 	results
 ): string {
 	let output = "";
-	output += listDependenciesInStatus(results, PGSRadarStatus.Adopt);
-	output += listDependenciesInStatus(results, PGSRadarStatus.Trial);
-	output += listDependenciesInStatus(results, PGSRadarStatus.Assess);
-	output += listDependenciesInStatus(results, PGSRadarStatus.Hold);
+	output += listDependenciesInStatus(results, Status.Adopt);
+	output += listDependenciesInStatus(results, Status.Trial);
+	output += listDependenciesInStatus(results, Status.Assess);
+	output += listDependenciesInStatus(results, Status.Hold);
 
 	return output;
 };
 
-export const jsonFormatter: PGSRadarLinterFormatter = function (
+export const jsonFormatter: LinterResultsFormatter = function (
 	results
 ): string {
 	return JSON.stringify(results);
 };
 function listDependenciesInStatus(
-	results: Record<PGSRadarStatus, RadarPackageEntry[]>,
-	status: PGSRadarStatus
+	results: Record<Status, RadarPackageEntry[]>,
+	status: Status
 ): string {
 	let output = `No dependencies in ${getDecoratedStatusName(status)} status`;
 	if (results[status].length) {
@@ -45,10 +45,10 @@ function listDependenciesInStatus(
 }
 
 function listDependenciesInHoldStatus(
-	results: Record<PGSRadarStatus, RadarPackageEntry[]>
+	results: Record<Status, RadarPackageEntry[]>
 ): string {
-	const decoratedStatusName = getDecoratedStatusName(PGSRadarStatus.Hold);
-	const holdDependencies = results[PGSRadarStatus.Hold];
+	const decoratedStatusName = getDecoratedStatusName(Status.Hold);
+	const holdDependencies = results[Status.Hold];
 	let output = `No dependencies in ${decoratedStatusName} status.`;
 	if (holdDependencies.length) {
 		output = `Dependencies in ${decoratedStatusName} status:`;
