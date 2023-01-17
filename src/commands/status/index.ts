@@ -7,6 +7,10 @@ const packageNames = argv.slice(2);
 
 async function main() {
 	const radars = await getRadars();
+	if (radars.length === 0) {
+		stdout.write("No radar with packages statuses found in API\n");
+		return;
+	}
 	const results = await status(radars, packageNames);
 
 	stdout.write(format(results));
