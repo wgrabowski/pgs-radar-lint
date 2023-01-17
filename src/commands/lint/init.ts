@@ -1,9 +1,8 @@
-import { doesConfigExists, getConfigFilePath } from "../../config";
-import { LinterConfig } from "../../config/model";
 import { exit, stdout } from "process";
 import { getRadars, Radar } from "../../api";
 
 import { writeFile } from "fs";
+import { doesConfigExists, getConfigFilePath, LinterConfig } from "./config";
 import enquirer = require("enquirer");
 
 export async function init(workingDirectory: string) {

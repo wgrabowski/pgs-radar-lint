@@ -1,12 +1,8 @@
 import { API_ENDPOINTS } from "./endpoints";
-import {
-	NPM_FEATURE_FLAG_NAME,
-	Radar,
-	RadarFeatures,
-	RadarPackageEntry,
-} from "./model";
+import { Radar, RadarFeatures, RadarPackageEntry } from "./model";
 import fetch, { Response } from "node-fetch-native";
 import { ApiError } from "../errors";
+import { NPM_FEATURE_FLAG_NAME } from "../config";
 
 export async function getRadars(): Promise<Radar[]> {
 	return Promise.all([getFeatures(), getAllRadars()])

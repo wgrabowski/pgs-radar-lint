@@ -2,10 +2,9 @@ import { stderr, stdout } from "process";
 import { readFileSync } from "fs";
 import { defaultFormatter, LinterResultsFormatter } from "./format";
 import { getPackages, RadarPackageEntry, Status } from "../../api";
-import { getConfig } from "../../config";
 import { dirname, extname, join, resolve } from "path";
-import { LinterConfig } from "../../config/model";
 import { errorFormatter } from "../../errors";
+import { getConfig, LinterConfig } from "./config";
 
 export async function lint(
 	workingDirectory: string,

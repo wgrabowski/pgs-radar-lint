@@ -4,8 +4,8 @@ import { lint } from "./lint";
 import { init } from "./init";
 import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
 import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
-import { checkConfig, hasPackageJson } from "../../config";
 import { errorFormatter } from "../../errors";
+import { checkConfig, hasPackageJson } from "./config";
 
 const { flags, workingDirectory } = getResolvedArgs();
 
