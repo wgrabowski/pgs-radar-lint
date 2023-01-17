@@ -3,6 +3,7 @@ import { existsSync, readFile } from "fs";
 import { join } from "path";
 import { getRadars } from "../api";
 import { IncompatibleConfigError, InvalidConfigError } from "../errors";
+import { stdout } from "process";
 
 export function getConfigFilePath(workingDirectory: string): string {
 	return join(workingDirectory, CONFIG_FILE_NAME);
@@ -28,7 +29,14 @@ export function getConfig(workingDirectory: string): Promise<LinterConfig> {
 	});
 }
 
-export async function checkConfig(workingDirectory: string) {
+export async function checkConfig(workingDirectory: string): Promise<boolean> {
+	if (!doesConfigExists(workingDirectory)) {
+		stdout.write(
+			`No config file found in specified directory (${workingDirectory}).\nCall pgs-radar-lint --init to create a configuration file.\n`
+		);
+		return false;
+	}
+
 	if (await isConfigInvalid(workingDirectory)) {
 		throw new InvalidConfigError();
 	}
@@ -36,10 +44,15 @@ export async function checkConfig(workingDirectory: string) {
 	if (await isConfigIncompatible(workingDirectory)) {
 		throw new IncompatibleConfigError();
 	}
+
+	return true;
 }
 
 export function doesConfigExists(workingDirectory: string): boolean {
 	return existsSync(getConfigFilePath(workingDirectory));
+}
+export function hasPackageJson(workingDirectory: string): boolean {
+	return existsSync(join(workingDirectory, "package.json"));
 }
 
 async function isConfigIncompatible(

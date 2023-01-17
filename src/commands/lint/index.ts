@@ -1,10 +1,10 @@
-import { exit, stderr } from "process";
+import { exit, stderr, stdout } from "process";
 
 import { lint } from "./lint";
 import { init } from "./init";
 import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
 import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
-import { checkConfig } from "../../config";
+import { checkConfig, hasPackageJson } from "../../config";
 import { errorFormatter } from "../../errors";
 
 const { flags, workingDirectory } = getResolvedArgs();
@@ -26,7 +26,19 @@ async function main() {
 	} else if (flags.init) {
 		await init(workingDirectory);
 	} else {
-		await checkConfig(workingDirectory);
+		const configOk = await checkConfig(workingDirectory);
+
+		if (!configOk) {
+			exit(2);
+		}
+
+		if (!hasPackageJson(workingDirectory)) {
+			stdout.write(
+				`No package.json file found in specified directory (${workingDirectory}).\nMake sure that you call pgs-radar-lint in the right directory.\n`
+			);
+			return;
+		}
+
 		await lint(workingDirectory, getFormatter(flags));
 	}
 }
