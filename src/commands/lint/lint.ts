@@ -12,7 +12,6 @@ export async function lint(
 	formatter: PGSRadarLinterFormatter = defaultFormatter
 ) {
 	const config = await getConfig(workingDirectory).catch((error) => {
-		console.log("ghere");
 		stderr.write(errorFormatter(error));
 	});
 
