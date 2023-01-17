@@ -1,5 +1,5 @@
 # PGS Radar Lint
-lint your package.json against PGS Software Technology Radar
+lint your package.json against [PGS Software Technology Radar](https://radar.pgs-soft.com) 
 > this is POC version, not published in any npm repository
 
 
@@ -31,7 +31,7 @@ Visit  (https://radar.pgs-soft.com) to see PGS Technology Radar
 ## Exit codes
 `pgs-radar-lint` exit codes:
  - `1` dependencies in `Hold` status found
- - `2` an error occured
+ - `2` an error occurred
  - `0` success and any other scenario
 # local testing
 Use  `npm link` for local testing. See docs [here](https://docs.npmjs.com/cli/v9/commands/npm-link)
