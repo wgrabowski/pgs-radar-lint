@@ -32,7 +32,7 @@ export function printHelp() {
 }
 
 export function getHelp(): string {
-	let output = `${LINT_EXECUTABLE_NAME} - lint dependencies from your package.json against PGS Software Technology Radar\n`;
+	let output = `${LINT_EXECUTABLE_NAME} - lint dependencies from your package.json against Xebia Technology Radar\n`;
 	output += "\nUsage: ${LINT_EXECUTABLE_NAME} <directory>\n";
 
 	output += "\nOptions:\n";
@@ -58,7 +58,7 @@ export function getHelp(): string {
 	)} - print output in raw JSON\n`;
 
 	output +=
-		"\n\nVisit  (https://radar.pgs-soft.com) to see PGS Technology Radar\n";
+		"\n\nVisit  (https://radar.xebia-soft.com) to see Xebia Technology Radar\n";
 	return output;
 }
 

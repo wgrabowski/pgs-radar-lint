@@ -34,7 +34,7 @@ async function main() {
 
 		if (!hasPackageJson(workingDirectory)) {
 			stdout.write(
-				`No package.json file found in specified directory (${workingDirectory}).\nMake sure that you call pgs-radar-lint in the right directory.\n`
+				`No package.json file found in specified directory (${workingDirectory}).\nMake sure that you call xebia-radar-lint in the right directory.\n`
 			);
 			return;
 		}

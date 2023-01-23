@@ -1,10 +1,10 @@
 {
-	"name": "pgs-radar-lint",
+	"name": "xebia-radar-lint",
 	"version": "0.0.1",
-	"description": "linter for PGS Software Technology Radar",
+	"description": "linter for Xebia Technology Radar",
 	"bin": {
-		"pgs-radar-lint": "bin/linter.js",
-		"pgs-radar-status": "bin/status.js"
+		"xebia-radar-lint": "bin/linter.js",
+		"xebia-radar-status": "bin/status.js"
 	},
 	"scripts": {
 		"prestart": "npm run build && npm link",
@@ -14,10 +14,12 @@
 		"lint": "eslint src/**/*.ts"
 	},
 	"keywords": [],
-	"author": "Wojciech Grabowski wgrabowski@pgs-soft.com",
-	"contributors": ["Wojciech Grabowski wgrabowski@pgs-soft.com"],
+	"author": "Wojciech Grabowski wojciech.grabowski@xebia.com",
+	"contributors": [
+		"Wojciech Grabowski wojciech.grabowski@xebia.com"
+	],
 	"bugs": {
-		"url": "https://github.com/wgrabowski/pgs-radar-lint/issues"
+		"url": "https://github.com/wgrabowski/xebia-radar-lint/issues"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "16.0.1",
