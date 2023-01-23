@@ -37,7 +37,7 @@ export function getConfig(workingDirectory: string): Promise<LinterConfig> {
 export async function checkConfig(workingDirectory: string): Promise<boolean> {
 	if (!doesConfigExists(workingDirectory)) {
 		stdout.write(
-			`No config file found in specified directory (${workingDirectory}).\nCall pgs-radar-lint --init to create a configuration file.\n`
+			`No config file found in specified directory (${workingDirectory}).\nCall xebia-radar-lint --init to create a configuration file.\n`
 		);
 		return false;
 	}
