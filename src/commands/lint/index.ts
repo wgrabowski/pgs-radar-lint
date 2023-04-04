@@ -26,7 +26,9 @@ async function main() {
 	} else if (flags.init) {
 		await init(workingDirectory);
 	} else {
-		const configOk = await checkConfig(workingDirectory);
+		const configOk = flags.noConfig
+			? true
+			: await checkConfig(workingDirectory);
 
 		if (!configOk) {
 			exit(2);
@@ -39,7 +41,7 @@ async function main() {
 			return;
 		}
 
-		await lint(workingDirectory, getFormatter(flags));
+		await lint(workingDirectory, getFormatter(flags), flags.noConfig);
 	}
 }
 

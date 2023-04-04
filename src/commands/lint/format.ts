@@ -28,6 +28,7 @@ export const jsonFormatter: LinterResultsFormatter = function (
 ): string {
 	return JSON.stringify(results);
 };
+
 function listDependenciesInStatus(
 	results: Record<Status, RadarPackageEntry[]>,
 	status: Status
