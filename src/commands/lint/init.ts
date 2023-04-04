@@ -24,7 +24,7 @@ export async function init(workingDirectory: string) {
 	);
 }
 
-async function getConfigFromUser(): Promise<LinterConfig> {
+export async function getConfigFromUser(): Promise<LinterConfig> {
 	const radarsList = await getRadars().then((radars) =>
 		radars.map(radarToChoice)
 	);

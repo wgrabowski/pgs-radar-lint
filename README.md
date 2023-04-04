@@ -1,19 +1,20 @@
-# PGS Radar Lint
-lint your package.json against [PGS Software Technology Radar](https://radar.pgs-soft.com) 
-> this is POC version, not published in any npm repository
+# Xebia Radar Lint
 
+lint your package.json against [Xebia Technology Radar](https://radar.xebia.com)
 
-## pgs-radar-lint
-`pgs-radar-lint` lints package.json against  PGS Technology Radar (https://radar.pgs-soft.com)
+## xebia-radar-lint
+
+`xebia-radar-lint` lints package.json against Xebia Technology Radar (https://radar.xebia-soft.com)
 
 ```
-pgs-radar-lint - lint dependencies from your package.json against PGS Software Technology Radar
+xebia-radar-lint - lint dependencies from your package.json against Xebia Technology Radar
 
-Usage: pgs-radar-lint <directory>
+Usage: xebia-radar-lint <directory>
 
 Options:
-        <directory>      - directory with package.json - (optional) current directory is default
+        <directory>      - directory with package.json and .radarlintrc files - (optional) current directory is default
         -i, --init           - creates config file (.radarlintrc) in <directory> (interactive)
+        -n, --no-config      - prompt user for config, doesn't require config file  and ignores it if it exists (interactive)
         -h, --help           - shows this help
 
 Output formatting:
@@ -22,19 +23,40 @@ Output formatting:
         -j, --json           - print output in raw JSON
 
 
-Visit  (https://radar.pgs-soft.com) to see PGS Technology Radar
+Visit  (https://radar.xebia.com) to see Xebia Technology Radar
 ```
-## pgs-radar-status
 
-`pgs-radar-status` prints status of provided npm packages list from all PGS Technology radars
+### With config file:
+
+Config file needs to be created:
+
+`xebia-radar-lint --init` - create config file (`.radarlintrc`) in current directory
+
+`xebia-radar-lint --init <directory>` - create config file (`.radarlintrc`) in `<directory>`
+
+When file exists run `xebia-radar-lint` with optional flags
+
+### Without config file:
+
+`xebia-radar-lint --no-config` - run linter without config file, you will be asked each time which radars use to check
+you `package.json`
+
+## xebia-radar-status
+
+`xebia-radar-status` prints status of provided npm packages list from all Xebia Technology radars
 
 ## Exit codes
-`pgs-radar-lint` exit codes:
- - `1` dependencies in `Hold` status found
- - `2` an error occurred
- - `0` success and any other scenario
+
+`xebia-radar-lint` exit codes:
+
+- `1` dependencies in `Hold` status found
+- `2` an error occurred
+- `0` success and any other scenario
+
 # local testing
+
 Use  `npm link` for local testing. See docs [here](https://docs.npmjs.com/cli/v9/commands/npm-link)
 
-For development use `npm start`, which will first link package locally and then watch for changes in code and rebuild code.
+For development use `npm start`, which will first link package locally and then watch for changes in code and rebuild
+code.
 

@@ -5,14 +5,20 @@ import { getPackages, RadarPackageEntry, Status } from "../../api";
 import { dirname, extname, join, resolve } from "path";
 import { errorFormatter } from "../../errors";
 import { getConfig, LinterConfig } from "./config";
+import { getConfigFromUser } from "./init";
 
 export async function lint(
 	workingDirectory: string,
-	formatter: LinterResultsFormatter = defaultFormatter
+	formatter: LinterResultsFormatter = defaultFormatter,
+	noConfig = false
 ) {
-	const config = await getConfig(workingDirectory).catch((error) => {
-		stderr.write(errorFormatter(error));
-	});
+	const config = noConfig
+		? await getConfigFromUser().catch((error) => {
+				stderr.write(errorFormatter(error));
+		  })
+		: await getConfig(workingDirectory).catch((error) => {
+				stderr.write(errorFormatter(error));
+		  });
 
 	if (!config) {
 		return;
@@ -21,7 +27,6 @@ export async function lint(
 	const result = await lintPackages(workingDirectory, config as LinterConfig);
 
 	stdout.write(formatter(result));
-	stdout.write("\n");
 	process.exit(result.Hold.length > 0 ? 1 : 0);
 }
 

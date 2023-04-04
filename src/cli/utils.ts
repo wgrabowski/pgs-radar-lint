@@ -11,6 +11,11 @@ export function getResolvedArgs(): LinterRuntimeArgs {
 			summary: hasFlag(rawOptions, CliFlagLong.summary, CliFlagShort.summary),
 			help: hasFlag(rawOptions, CliFlagLong.help, CliFlagShort.help),
 			json: hasFlag(rawOptions, CliFlagLong.json, CliFlagShort.json),
+			noConfig: hasFlag(
+				rawOptions,
+				CliFlagLong.noConfig,
+				CliFlagShort.noConfig
+			),
 		},
 	};
 }
@@ -33,7 +38,7 @@ export function printHelp() {
 
 export function getHelp(): string {
 	let output = `${LINT_EXECUTABLE_NAME} - lint dependencies from your package.json against Xebia Technology Radar\n`;
-	output += "\nUsage: ${LINT_EXECUTABLE_NAME} <directory>\n";
+	output += `\nUsage: ${LINT_EXECUTABLE_NAME} <directory>\n`;
 
 	output += "\nOptions:\n";
 	output += `\t${"<directory>".padEnd(
@@ -42,6 +47,9 @@ export function getHelp(): string {
 	output += `\t${CliFlagShort.init}, ${CliFlagLong.init.padEnd(
 		getOptionPadding()
 	)} - creates config file (${CONFIG_FILE_NAME}) in <directory> (interactive)\n`;
+	output += `\t${CliFlagShort.noConfig}, ${CliFlagLong.noConfig.padEnd(
+		getOptionPadding()
+	)} - prompt user for config, doesn't require config file  and ignores it if it exists (interactive)\n`;
 	output += `\t${CliFlagShort.help}, ${CliFlagLong.help.padEnd(
 		getOptionPadding()
 	)} - shows this help\n`;
@@ -58,7 +66,7 @@ export function getHelp(): string {
 	)} - print output in raw JSON\n`;
 
 	output +=
-		"\n\nVisit  (https://radar.xebia-soft.com) to see Xebia Technology Radar\n";
+		"\n\nVisit  (https://radar.xebia.com) to see Xebia Technology Radar\n";
 	return output;
 }
 
