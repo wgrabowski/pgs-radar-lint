@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@commitlint/cli": "16.0.1",
-		"@commitlint/config-conventional": "16.0.0",
+		"@commitlint/config-conventional": "17.6.1",
 		"@types/ansi-colors": "3.2.2",
 		"@types/node": "18.15.11",
 		"@typescript-eslint/eslint-plugin": "5.8.1",
