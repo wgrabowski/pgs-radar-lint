@@ -1,6 +1,6 @@
 {
 	"name": "xebia-radar-lint",
-	"version": "1.0.0-1",
+	"version": "1.0.0-2",
 	"description": "linter for Xebia Technology Radar",
 	"bin": {
 		"xebia-radar-lint": "bin/linter.js",
