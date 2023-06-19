@@ -1,5 +1,6 @@
 import { exit, stdout } from "process";
 import { getRadars, Radar } from "../../api";
+import * as colors from "ansi-colors";
 
 import { writeFile } from "fs";
 import { doesConfigExists, getConfigFilePath, LinterConfig } from "./config";
@@ -41,6 +42,14 @@ export async function getConfigFromUser(): Promise<LinterConfig> {
 		choices: radarsList,
 		type: "multiselect",
 		required: true,
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore due to https://github.com/enquirer/enquirer/issues/393
+		indicator(state, choice) {
+			if (choice.enabled) {
+				return colors.green(state.symbols.check);
+			}
+			return colors.dim.gray(state.symbols.ballotCross);
+		},
 		result(names) {
 			// Typescript definitions for enquirer are not complete
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
