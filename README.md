@@ -4,26 +4,26 @@ lint your package.json against [Xebia Technology Radar](https://radar.xebia.com)
 
 ## xebia-radar-lint
 
-`xebia-radar-lint` lints package.json against Xebia Technology Radar (https://radar.xebia-soft.com)
-
 ```
 xebia-radar-lint - lint dependencies from your package.json against Xebia Technology Radar
 
 Usage: xebia-radar-lint <directory>
 
 Options:
-        <directory>      - directory with package.json and .radarlintrc files - (optional) current directory is default
-        -i, --init           - creates config file (.radarlintrc) in <directory> (interactive)
-        -n, --no-config      - prompt user for config, doesn't require config file  and ignores it if it exists (interactive)
-        -h, --help           - shows this help
+	<directory>      - directory with package.json and .radarlintrc files - (optional) current directory is default
+	-i, --init           - creates config file (.radarlintrc) in <directory> (interactive)
+	-n, --no-config      - prompt user for config, doesn't require config file  and ignores it if it exists (interactive)
+	-h, --help           - shows this help
 
 Output formatting:
-                             - default format (dependencies in Hold status)
-        -s, --summary        - print dependencies from all statuses
-        -j, --json           - print output in raw JSON
+	                     - default format (dependencies in Hold status)
+	-c, --cli            - dependencies in Hold status
+	-s, --summary        - detailed summary format
+	-j, --json           - print output in raw JSON
 
 
 Visit  (https://radar.xebia.com) to see Xebia Technology Radar
+
 ```
 
 ### With config file:

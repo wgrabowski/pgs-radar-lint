@@ -61,7 +61,7 @@ export function getHelp(): string {
 	)} - default format (dependencies in Hold status)\n`;
 	output += `\t${CliFlagShort.cli}, ${CliFlagLong.cli.padEnd(
 		getOptionPadding()
-	)} - dependencies in Hold status\n`;
+	)} - list only dependencies in Hold status\n`;
 	output += `\t${CliFlagShort.summary}, ${CliFlagLong.summary.padEnd(
 		getOptionPadding()
 	)} - detailed summary format\n`;
