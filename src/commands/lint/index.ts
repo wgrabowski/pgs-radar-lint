@@ -3,18 +3,21 @@ import { exit, stderr, stdout } from "process";
 import { lint } from "./lint";
 import { init } from "./init";
 import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
-import { defaultFormatter, jsonFormatter, summaryFormatter } from "./format";
+import { cliFormatter, jsonFormatter, defaultFormatter,summaryFormatter } from "./format";
 import { errorFormatter } from "../../errors";
 import { checkConfig, hasPackageJson } from "./config";
 
 const { flags, workingDirectory } = getResolvedArgs();
 
 function getFormatter(flags: Record<CliFlag, boolean>) {
+	if (flags.summary) {
+		return summaryFormatter;
+	}
 	if (flags.json) {
 		return jsonFormatter;
 	}
-	if (flags.summary) {
-		return summaryFormatter;
+	if (flags.cli) {
+		return cliFormatter;
 	}
 	return defaultFormatter;
 }

@@ -7,7 +7,7 @@ export const enum Status {
 	Adopt = "Adopt",
 	Trial = "Trial",
 	Assess = "Assess",
-	Hold = "Hold",
+	Hold = "Hold"
 }
 
 export interface RadarPackageEntry {

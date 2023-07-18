@@ -1,15 +1,16 @@
 import { stderr, stdout } from "process";
 import { readFileSync } from "fs";
-import { defaultFormatter, LinterResultsFormatter } from "./format";
+import { cliFormatter, LinterResultsFormatter } from "./format";
 import { getPackages, RadarPackageEntry, Status } from "../../api";
 import { dirname, extname, join, resolve } from "path";
 import { errorFormatter } from "../../errors";
 import { getConfig, LinterConfig } from "./config";
 import { getConfigFromUser } from "./init";
+import { LinterResults } from "./model";
 
 export async function lint(
 	workingDirectory: string,
-	formatter: LinterResultsFormatter = defaultFormatter,
+	formatter: LinterResultsFormatter = cliFormatter,
 	noConfig = false
 ) {
 	const config = noConfig
@@ -54,18 +55,16 @@ function getDependencies(directoryPath: string): string[] {
 }
 
 function getPackagesByStatus(
-	radarsEntries: Awaited<RadarPackageEntry[]>[],
+	radarsEntries: RadarPackageEntry[],
 	status: Status
 ) {
-	return radarsEntries
-		.flatMap((entry) => entry)
-		.reduce((reduced, entry) => {
-			if (entry.status === status) {
-				reduced.set(entry.packageName, entry);
-			}
+	return radarsEntries.reduce((reduced, entry) => {
+		if (entry.status === status) {
+			reduced.set(entry.packageName, entry);
+		}
 
-			return reduced;
-		}, new Map<string, RadarPackageEntry>());
+		return reduced;
+	}, new Map<string, RadarPackageEntry>());
 }
 
 /**
@@ -84,11 +83,20 @@ function getDependenciesIncludedInRadar(
 async function lintPackages(
 	directoryPath: string,
 	config: LinterConfig
-): Promise<Record<Status, RadarPackageEntry[]>> {
+): Promise<LinterResults> {
 	const radarIds = config.radars.map((radar) => radar.spreadsheetId);
+	const radarNames = config.radars.map((radar) => radar.title);
 	const dependencies = getDependencies(directoryPath);
 	const radarsEntries = await Promise.all(
 		radarIds.map((radarId) => getPackages(radarId))
+	).then((items) =>
+		items.flatMap((entry) => entry).filter((entry) => entry.packageName !== "0")
+	);
+	const packagesInRadar = radarsEntries
+		.filter((entry) => dependencies.includes(entry.packageName))
+		.map((entry) => entry.name);
+	const packagesNotInRadar = dependencies.filter(
+		(dependency) => !packagesInRadar.includes(dependency)
 	);
 
 	return {
@@ -108,5 +116,11 @@ async function lintPackages(
 			dependencies,
 			getPackagesByStatus(radarsEntries, Status.Hold)
 		),
+		dependencies: {
+			all: dependencies,
+			inRadar: packagesInRadar,
+			notInRadar: packagesNotInRadar,
+		},
+		radarNames,
 	};
 }

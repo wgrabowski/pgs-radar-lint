@@ -14,6 +14,10 @@ export function getDecoratedStatusName(status: Status): string {
 	return StatusColor[status](status);
 }
 
+export function getStringDecoratedByStatus(status: Status,text:string): string {
+	return StatusColor[status](text);
+}
+
 export function getErrorTitle(text: string): string {
 	return `${red(text)}`;
 }
