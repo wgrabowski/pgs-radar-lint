@@ -22,7 +22,7 @@
 		"url": "https://github.com/wgrabowski/xebia-radar-lint/issues"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "17.6.1",
+		"@commitlint/cli": "17.6.7",
 		"@commitlint/config-conventional": "17.6.5",
 		"@types/ansi-colors": "3.2.2",
 		"@types/node": "18.15.11",
