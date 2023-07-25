@@ -1,6 +1,6 @@
 import { stderr, stdout } from "process";
 import { readFileSync } from "fs";
-import { cliFormatter, LinterResultsFormatter } from "./format";
+import { ciFormatter, LinterResultsFormatter } from "./format";
 import { getPackages, RadarPackageEntry, Status } from "../../api";
 import { dirname, extname, join, resolve } from "path";
 import { errorFormatter } from "../../errors";
@@ -10,7 +10,7 @@ import { LinterResults } from "./model";
 
 export async function lint(
 	workingDirectory: string,
-	formatter: LinterResultsFormatter = cliFormatter,
+	formatter: LinterResultsFormatter = ciFormatter,
 	noConfig = false
 ) {
 	const config = noConfig

@@ -1,10 +1,10 @@
-import { RadarPackageEntry, Status } from "../../api";
+import { Status } from "../../api";
 import { getDecoratedStatusName, getStringDecoratedByStatus } from "../../cli";
 import { LinterResults } from "./model";
 
 export type LinterResultsFormatter = (results: LinterResults) => string;
 
-export const cliFormatter: LinterResultsFormatter = function (results): string {
+export const ciFormatter: LinterResultsFormatter = function (results): string {
 	return listDependenciesInHoldStatus(results);
 };
 
@@ -117,7 +117,10 @@ function listDecoratedDependencies(results: LinterResults) {
 		return colorizedName;
 	};
 
-	output += " - " + results.dependencies.all.sort().map(colorByStatus).join("\n - ") + "\n";
+	output +=
+		" - " +
+		results.dependencies.all.sort().map(colorByStatus).join("\n - ") +
+		"\n";
 
 	return output;
 }

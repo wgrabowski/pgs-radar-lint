@@ -2,6 +2,16 @@
 
 lint your package.json against [Xebia Technology Radar](https://radar.xebia.com)
 
+## Installation
+
+Install locally `npm i  xebia-radar-lint` or globally `npm i -g xebia-radar-lint`
+
+## Usage via npx
+
+xebia-radar-lint: `npx xebia-radar-lint`
+
+xebia-radar-status: `npx -p xebia-radar-lint -c xebia-radar-status`
+
 ## xebia-radar-lint
 
 ```
@@ -26,6 +36,14 @@ Visit  (https://radar.xebia.com) to see Xebia Technology Radar
 
 ```
 
+### Exit codes
+
+`xebia-radar-lint` exit codes:
+
+- `1` dependencies in `Hold` status found
+- `2` an error occurred
+- `0` success and any other scenario
+
 ### With config file:
 
 Config file needs to be created:
@@ -45,18 +63,10 @@ you `package.json`
 
 `xebia-radar-status` prints status of provided npm packages list from all Xebia Technology radars
 
-## Exit codes
-
-`xebia-radar-lint` exit codes:
-
-- `1` dependencies in `Hold` status found
-- `2` an error occurred
-- `0` success and any other scenario
-
 # local testing
 
 Use  `npm link` for local testing. See docs [here](https://docs.npmjs.com/cli/v9/commands/npm-link)
 
-For development use `npm start`, which will first link package locally and then watch for changes in code and rebuild
-code.
+For development use `npm start`, which will first links package locally and then watches for changes in code and
+rebuilds code.
 

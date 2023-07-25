@@ -4,7 +4,7 @@ import { lint } from "./lint";
 import { init } from "./init";
 import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
 import {
-	cliFormatter,
+	ciFormatter,
 	defaultFormatter,
 	jsonFormatter,
 	summaryFormatter,
@@ -22,7 +22,7 @@ function getFormatter(flags: Record<CliFlag, boolean>) {
 		return jsonFormatter;
 	}
 	if (flags.ci) {
-		return cliFormatter;
+		return ciFormatter;
 	}
 	return defaultFormatter;
 }

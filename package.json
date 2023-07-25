@@ -11,7 +11,8 @@
 		"start": "tsc --watch -p tsconfig.json",
 		"build": "tsc -p tsconfig.json",
 		"prepareOnly": "npm run build",
-		"lint": "eslint src/**/*.ts"
+		"lint": "eslint src/**/*.ts",
+		"selfcheck": "npx xebia-radar-lint ."
 	},
 	"keywords": [],
 	"author": "Wojciech Grabowski wojciech.grabowski@xebia.com",
