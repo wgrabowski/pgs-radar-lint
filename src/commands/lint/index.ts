@@ -3,7 +3,12 @@ import { exit, stderr, stdout } from "process";
 import { lint } from "./lint";
 import { init } from "./init";
 import { CliFlag, getResolvedArgs, printHelp } from "../../cli";
-import { cliFormatter, jsonFormatter, defaultFormatter,summaryFormatter } from "./format";
+import {
+	cliFormatter,
+	defaultFormatter,
+	jsonFormatter,
+	summaryFormatter,
+} from "./format";
 import { errorFormatter } from "../../errors";
 import { checkConfig, hasPackageJson } from "./config";
 
@@ -16,7 +21,7 @@ function getFormatter(flags: Record<CliFlag, boolean>) {
 	if (flags.json) {
 		return jsonFormatter;
 	}
-	if (flags.cli) {
+	if (flags.ci) {
 		return cliFormatter;
 	}
 	return defaultFormatter;

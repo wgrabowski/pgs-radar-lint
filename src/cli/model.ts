@@ -1,4 +1,5 @@
-export type CliFlag = "init" | "help" | "cli" | "json" | "noConfig" | "summary";
+export type CliFlag = "init" | "help" | "ci" | "json" | "noConfig" | "summary";
+
 export interface LinterRuntimeArgs {
 	workingDirectory: string;
 	flags: Record<CliFlag, boolean>;
@@ -7,15 +8,16 @@ export interface LinterRuntimeArgs {
 export enum CliFlagLong {
 	init = "--init",
 	help = "--help",
-	cli = "--cli",
+	ci = "--ci",
 	summary = "--summary",
 	json = "--json",
 	noConfig = "--no-config",
 }
+
 export enum CliFlagShort {
 	init = "-i",
 	help = "-h",
-	cli = "-c",
+	ci = "-c",
 	summary = "-s",
 	json = "-j",
 	noConfig = "-n",

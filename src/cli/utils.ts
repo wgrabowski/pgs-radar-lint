@@ -8,10 +8,10 @@ export function getResolvedArgs(): LinterRuntimeArgs {
 		workingDirectory: getWorkingDirectory(rawOptions),
 		flags: {
 			init: hasFlag(rawOptions, CliFlagLong.init, CliFlagShort.init),
-			cli: hasFlag(rawOptions, CliFlagLong.cli, CliFlagShort.cli),
+			ci: hasFlag(rawOptions, CliFlagLong.ci, CliFlagShort.ci),
 			help: hasFlag(rawOptions, CliFlagLong.help, CliFlagShort.help),
 			json: hasFlag(rawOptions, CliFlagLong.json, CliFlagShort.json),
-			summary:hasFlag(rawOptions, CliFlagLong.summary, CliFlagShort.summary),
+			summary: hasFlag(rawOptions, CliFlagLong.summary, CliFlagShort.summary),
 			noConfig: hasFlag(
 				rawOptions,
 				CliFlagLong.noConfig,
@@ -59,7 +59,7 @@ export function getHelp(): string {
 	output += `\t    ${"".padEnd(
 		getOptionPadding()
 	)} - default format (dependencies in Hold status)\n`;
-	output += `\t${CliFlagShort.cli}, ${CliFlagLong.cli.padEnd(
+	output += `\t${CliFlagShort.ci}, ${CliFlagLong.ci.padEnd(
 		getOptionPadding()
 	)} - list only dependencies in Hold status\n`;
 	output += `\t${CliFlagShort.summary}, ${CliFlagLong.summary.padEnd(

@@ -3,10 +3,6 @@
     {
       "title": "Frontend",
       "spreadsheetId": "Frontend Technology Radar"
-    },
-    {
-      "title": "Node.JS",
-      "spreadsheetId": "NodeJS Technology Radar"
     }
   ]
 }
