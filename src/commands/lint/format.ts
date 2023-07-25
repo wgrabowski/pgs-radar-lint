@@ -1,17 +1,14 @@
 import { RadarPackageEntry, Status } from "../../api";
-import { getDecoratedStatusName } from "../../cli";
+import { getDecoratedStatusName, getStringDecoratedByStatus } from "../../cli";
+import { LinterResults } from "./model";
 
-export type LinterResultsFormatter = (
-	results: Record<Status, RadarPackageEntry[]>
-) => string;
+export type LinterResultsFormatter = (results: LinterResults) => string;
 
-export const defaultFormatter: LinterResultsFormatter = function (
-	results
-): string {
+export const cliFormatter: LinterResultsFormatter = function (results): string {
 	return listDependenciesInHoldStatus(results);
 };
 
-export const summaryFormatter: LinterResultsFormatter = function (
+export const defaultFormatter: LinterResultsFormatter = function (
 	results
 ): string {
 	let output = "";
@@ -29,8 +26,14 @@ export const jsonFormatter: LinterResultsFormatter = function (
 	return JSON.stringify(results);
 };
 
+export const summaryFormatter: LinterResultsFormatter = function (
+	results
+): string {
+	return listStats(results) + listDecoratedDependencies(results);
+};
+
 function listDependenciesInStatus(
-	results: Record<Status, RadarPackageEntry[]>,
+	results: LinterResults,
 	status: Status
 ): string {
 	let output = `No dependencies in ${getDecoratedStatusName(status)} status`;
@@ -45,9 +48,7 @@ function listDependenciesInStatus(
 	return output;
 }
 
-function listDependenciesInHoldStatus(
-	results: Record<Status, RadarPackageEntry[]>
-): string {
+function listDependenciesInHoldStatus(results: LinterResults): string {
 	const decoratedStatusName = getDecoratedStatusName(Status.Hold);
 	const holdDependencies = results[Status.Hold];
 	let output = `No dependencies in ${decoratedStatusName} status.`;
@@ -65,6 +66,58 @@ function listDependenciesInHoldStatus(
 			.join("\n");
 	}
 	output += "\n";
+
+	return output;
+}
+
+function listStats(results: LinterResults) {
+	let output = "xebia-radar-lint\n\n";
+
+	output += `Checked ${results.dependencies.all.length} dependencies from package.json against Xebia Technology Radar\n`;
+	output += `${
+		results.dependencies.inRadar.length
+	} included in radar (${results.radarNames.join(", ")})\n`;
+	output += `${results[Status.Adopt].length
+		.toString()
+		.padEnd(3)} in ${getDecoratedStatusName(Status.Adopt)}  status\n`;
+	output += `${results[Status.Assess].length
+		.toString()
+		.padEnd(3)} in ${getDecoratedStatusName(Status.Assess)} status\n`;
+	output += `${results[Status.Trial].length
+		.toString()
+		.padEnd(3)} in ${getDecoratedStatusName(Status.Trial)}  status\n`;
+	output += `${results[Status.Hold].length
+		.toString()
+		.padEnd(3)} in ${getDecoratedStatusName(Status.Hold)}   status\n`;
+
+	output += "\n";
+
+	return output;
+}
+
+function listDecoratedDependencies(results: LinterResults) {
+	const statuses = [Status.Adopt, Status.Hold, Status.Trial, Status.Assess];
+
+	let output = `All dependencies colored by status (${getDecoratedStatusName(
+		Status.Adopt
+	)}, ${getDecoratedStatusName(Status.Assess)}, ${getDecoratedStatusName(
+		Status.Trial
+	)}, ${getDecoratedStatusName(
+		Status.Hold
+	)}, no color - package not in radar).\n`;
+
+	const colorByStatus = (name: string) => {
+		let colorizedName = name;
+		statuses.forEach((status) => {
+			if (results[status].some((entry) => entry.packageName === name)) {
+				colorizedName = getStringDecoratedByStatus(status, name);
+			}
+		});
+
+		return colorizedName;
+	};
+
+	output += " - " + results.dependencies.all.sort().map(colorByStatus).join("\n - ") + "\n";
 
 	return output;
 }
